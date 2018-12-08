@@ -31,8 +31,19 @@ function plot(a_1,b_1, dom_x_1, dom_y_1) {
     data: [{
       fn: fn_str
     }]
-  });
+  })
   funP.programmaticZoom(dom_x_1, dom_y_1);
+  document.body.onresize = function() {
+    var fn_str = a_1 + '*sin(' + b_1 + '*x)';
+    functionPlot({
+      target: target,
+      width: target.clientWidth,
+      height: target.clientHeight,
+      data: [{
+        fn: fn_str
+      }]
+    })
+  }
 }
 
 

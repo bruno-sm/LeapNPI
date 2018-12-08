@@ -1,3 +1,7 @@
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
 #app {
   height: 100%;
   width: 100%;
@@ -33,7 +37,7 @@
   display: inline-block;
   vertical-align: middle;
   line-height: normal;
-  font-family: "Times New Roman", Times, serif;
+  font-family: 'Crimson Text', serif;
   font-size: 25pt;
 }
 
@@ -44,12 +48,61 @@
 }
 
 .paramExplain{
-  width: 41%;
+  width: 50%;
+  height: 60%;
   display: inline-block;
+  box-sizing: border-box;
   padding-left: 30pt;
   padding-right: 30pt;
   font-size: 16pt;
   text-align: center;
+}
+
+.paramExplainText{
+  width: 100%;
+}
+
+.paramGesto{
+  height: 80%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gesto{
+  max-width: 80%;
+  max-height: 80%;
+}
+
+.a{
+  color: #08587B;
+  font-family: 'Crimson Text', serif;
+  font-size: 24pt;
+}
+
+.b{
+  color: #e85f5c;
+  font-family: 'Crimson Text', serif;
+  font-size: 24pt;
+}
+
+#moveCont {
+  width: 60pt;
+  height: 60pt;
+  background-color: #ffffff;
+  border: solid;
+  border-radius: 100%;
+  border-color: #D4D4D4;
+  border-width: 1px;
+  padding: 1pt;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 4%;
+  left: 50%;
+  transform: translateX(-36%);
 }
 
 #menu {
@@ -80,7 +133,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Roboto', sans-serif;
   color: #ffffff;
   background-color: #08587B;
   user-select: none;
@@ -107,17 +159,27 @@
 }
 
 .menuButton:hover {
-  box-shadow: 0px 0px 10px #9dd9d2;
+  box-shadow: 0px 0px 10px #f6828c;
 }
 
 .menuButton:active {
-  box-shadow: 0px 0px 30px #91e5f6;
+  box-shadow: 0px 0px 30px #f6828c;
 }
 
 .menuButtonText {
   color: #08587B;
   font-size: 18pt;
-  font-family: 'Roboto', sans-serif;
+}
+
+#pointingCont {
+  width: 80pt;
+  height: 80pt;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 2%;
+  left: 5%;
 }
 
 #cursor {
@@ -144,4 +206,23 @@
   border-color: rgba(246,130,140, 0.7);
   border-width: 1px;
   position: absolute;
+}
+
+#menuGestoCont {
+  width: 80pt;
+  height: 100pt;
+  position: absolute;
+  top: 2%;
+  left: 92%;
+  transform: translateX(-50%);
+  text-align: center;
+  font-size: 13pt;
+}
+
+#menuGestoCirc {
+  width: 70pt;
+  height: 70pt;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
