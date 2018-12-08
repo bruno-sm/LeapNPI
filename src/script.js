@@ -13,7 +13,7 @@ var moving_state = 3;
 var moving_state_x = 4;
 var moving_state_y = 5;
 
-var waiting_thres = 500;
+var waiting_thres = 50;
 var frame_waiting = 0;
 
 var dom_x = [-6, 6];
@@ -242,6 +242,12 @@ Leap.loop({background: true}, {
     }
     console.log("Estado actual: " + estado);
     console.log("Valores de a y b: " + a +", " + b);
+
+    if (estado ==  fist_state) {
+      document.getElementById('moveCont').style.boxShadow = "0px 0px 10px #f6828c";
+    } else {
+      document.getElementById('moveCont').style.boxShadow = "none";
+    }
   //  plot(a,b);
 }})
 
