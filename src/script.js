@@ -8,6 +8,17 @@ function plot() {
       fn: '2*sin(3*x)'
     }]
   })
+
+  document.body.onresize = function() {
+    functionPlot({
+      target: target,
+      width: target.clientWidth,
+      height: target.clientHeight,
+      data: [{
+        fn: '2*sin(3*x)'
+      }]
+    })
+  }
 }
 
 
@@ -27,7 +38,6 @@ function hide_menu() {
 
 function main() {
   plot();
-
   var menu = false;
   document.body.onkeypress = function() {
     if (!menu) {
