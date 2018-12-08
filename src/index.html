@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Museo Matemático Leap</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="styles.css" />
+  <script src="https://unpkg.com/d3@3/d3.min.js"></script>
+  <script src="https://unpkg.com/function-plot@1/dist/function-plot.js"></script>
+  <script src="script.js"></script>
+  <!--
+  <style type="text/css">#connect-leap{zoom: 0.4;}</style>
+  -->
+</head>
+<body>
+  <main role="main" id="app">
+    <!--div class="menu">
+      Menú
+      <div class="menuButton"> Calibrar </div>
+      <div class="menuButton"> Modo Zurdo </div>
+    </div-->
+    <span id="plot">
+    </span>
+    <section id="explain">
+      <div id="functionExpressionContainer">
+        <span id="functionExpression">f(x) = a sin(bx)</span>
+      </div>
+      <div id="paramsExplain">
+        <div id="paramAExplain" class="paramExplain">
+          a controla la intensidad de la onda. Prueba a cambiarla con
+        </div><!-- -->
+        <div id="paramBExplain" class="paramExplain">
+          b controla la amplitud de la onda. Prueba a cambiarla con
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="menu">
+    <div id="menuBox">
+      <div id="menuTitle">
+        <span id="menuText">Menú</span>
+      </div>
+      <div class="menuButton">
+        <span class="menuButtonText">Botón 1</span>
+      </div>
+      <div class="menuButton">
+        <span class="menuButtonText">Botón 2</span>
+      </div>
+      <div class="menuButton">
+        <span class="menuButtonText">Botón 3</span>
+      </div>
+      <div class="menuButton">
+        <span class="menuButtonText">Botón 4</span>
+      </div>
+      <div class="menuButton">
+        <span class="menuButtonText">Botón 5</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="cursor">
+    <div id="cursorCircle">
+    </div>
+  </div>
+</body>
+</html>
