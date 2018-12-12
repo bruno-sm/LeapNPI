@@ -6,8 +6,9 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
    <link href="https://fonts.googleapis.com/css?family=Crimson+Text" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="styles.css" />
-  <script src="https://unpkg.com/d3@3/d3.min.js"></script>
-  <script src="https://unpkg.com/function-plot@1/dist/function-plot.js"></script>
+  <script src="lib/d3.js"></script>
+  <script src="lib/d3.min.js"></script>
+  <script src="lib/function-plot.js"></script>
   <script src="lib/leap-0.6.4.js"></script>
   <script src="lib/leap-plugins-0.1.6.js"></script>
   <script src="lib/three.js"></script>
@@ -23,11 +24,11 @@
       <div class="menuButton"> Calibrar </div>
       <div class="menuButton"> Modo Zurdo </div>
     </div-->
-    <span id="plot">
+    <div id="plot">
       <div id="moveCont">
         <img class="gesto" src="img/fist.svg" alt="Gesto para mover la gráfica">
       </div>
-    </span>
+    </div>
     <section id="explain">
       <div id="functionExpressionContainer">
         <span id="functionExpression">f(x) = <span class="a">a</span> sin(<span class="b">b</span>x)</span>
