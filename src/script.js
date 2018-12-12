@@ -59,6 +59,9 @@ function main() {
   }
 
   var detector = new GestureDetector(30);
+
+  var on_pointer_time = new Date();
+
   detector.onMove = function(pos, diff, state) {
     //console.log("Posicion de la mano " + pos.x +"," + pos.y + "," + pos.z);
     if (state == detector.states.quiet || state == detector.states.pointer) {
@@ -67,8 +70,10 @@ function main() {
     }
 
     if (state == detector.states.pointer) {
-      document.getElementById('cursorCircle').style.height = Math.min(30, (30 + pos.z/5)) + 'pt';
-      document.getElementById('cursorCircle').style.width = Math.min(30, (30 + pos.z/5)) + 'pt';
+      var elapsed_time = (new Date()) - on_pointer_time;
+      //console.log("Pointer elapsed time: " + elapsed_time);
+      document.getElementById('cursorCircle').style.height = Math.max(10, (30 - elapsed_time/100)) + 'pt';
+      document.getElementById('cursorCircle').style.width = Math.max(10, (30 - elapsed_time/100)) + 'pt';
     }
 
     if (state == detector.states.fist) {
@@ -92,6 +97,7 @@ function main() {
 
   detector.onPointer = function() {
     console.log("Pointer detectado");
+    on_pointer_time = new Date();
   };
 
   detector.onPointerRelease = function() {
