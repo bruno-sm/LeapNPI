@@ -12,6 +12,8 @@
   <script src="lib/leap-0.6.4.js"></script>
   <script src="lib/leap-plugins-0.1.6.js"></script>
   <script src="lib/three.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/synaptic/1.1.4/synaptic.js"></script>
+  <script src="gesture-detector.js"></script>
   <script src="script.js"></script>
   <!--
   <style type="text/css">#connect-leap{zoom: 0.4;}</style>
@@ -31,7 +33,7 @@
     </div>
     <section id="explain">
       <div id="functionExpressionContainer">
-        <span id="functionExpression">f(x) = <span class="a">a</span> sin(<span class="b">b</span>x)</span>
+        <span id="functionExpression">f(x) = <span id="a" class="a">a</span> sin(<span id="b" class="b">b</span>x)</span>
       </div>
       <div id="paramsExplain">
         <div id="paramAExplain" class="paramExplain">
