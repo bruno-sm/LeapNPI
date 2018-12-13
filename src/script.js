@@ -1,6 +1,27 @@
+var functions = [
+  {
+    expression1: "",
+    expression2: "*sin(",
+    expression3: "*x)",
+    html: 'f(x)=<span id="a" class="a">a</span>sin(<span id="b" class="b">b</span>x)',
+    explain_a: '<span class="a">a</span> controla la <span class="a">intensidad</span> de la onda.',
+    explain_b: '<span class="b">b</span> controla la <span class="b">amplitud</span> de la onda.'
+  }
+];
+
+var current_function = functions[0];
+
+function change_function(f) {
+  current_function = f;
+  document.getElementById("functionExpression").innerHTML = f.html;
+  document.getElementById("paramAExplainText").innerHTML = f.explain_a;
+  document.getElementById("paramBExplainText").innerHTML = f.explain_b;
+}
+
+
 function plot(a_1,b_1, dom_x_1, dom_y_1) {
   var target = document.getElementById('plot');
-  var fn_str = a_1 + '*sin(' + b_1 + '*x)';
+  var fn_str = a_1 + current_function.expression2 + b_1 + current_function.expression3;
   functionPlot({
     target: target,
     width: target.clientWidth,
@@ -41,7 +62,7 @@ function show_menu() {
 function hide_menu() {
   document.getElementById('app').style.filter = 'none';
   document.getElementById('menu').style.visibility = 'hidden';
-  //document.getElementById('cursor').style.visibility = 'hidden';
+  document.getElementById('cursor').style.visibility = 'hidden';
 }
 
 var volteado = false;
@@ -52,7 +73,8 @@ function main() {
   var b = 3;
   var dom_x = [-6, 6];
   var dom_y = [-6, 6];
-  plot(a,b, dom_x, dom_y);
+  change_function(functions[0]);
+  plot(a, b, dom_x, dom_y);
 
   var menu = false;
   document.body.onkeypress = function() {
