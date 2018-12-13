@@ -88,6 +88,25 @@ body {
   font-size: 24pt;
 }
 
+.a_format{
+  color: #08587B;
+  font-family: 'Crimson Text', serif;
+  font-size: 24pt;
+}
+
+
+.b_format{
+  color: #e85f5c;
+  font-family: 'Crimson Text', serif;
+  font-size: 24pt;
+}
+
+.sup {
+  position: relative;
+  bottom: 1ex;
+  font-size: 80%;
+}
+
 #moveCont {
   width: 60pt;
   height: 60pt;
@@ -134,10 +153,6 @@ body {
   display: inline-block;
   box-sizing: border-box;
   cursor: pointer;
-}
-
-.menuButton:hover {
-  box-shadow: inset 0px 0px 10px #08587B;
 }
 
 .menuButton:active {

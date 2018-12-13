@@ -3,7 +3,7 @@ class GestureDetector {
   constructor(waiting_thres) {
     this.waiting_thres = waiting_thres;
     this.frame_waiting = 0;
-    this.states = {quiet: "quiet", fist: "fist", pointer: "pointer", turned: "turned", fist_vertical: "fist_vertical", fist_horizontal: "fist_horizontal"};
+    this.states = {quiet: "quiet", fist: "fist", pointer: "pointer", turned: "turned"};
     this.current_state = this.states.quiet;
     this.current_position = {x: 0.0, y: 0.0, z: 0.0};
     this.sphere_center = this.current_position;
@@ -80,9 +80,6 @@ class GestureDetector {
             this.state_callbacks[this.current_state].release();
             this.current_state = this.states.fist;
             this.state_callbacks[this.current_state].on();
-          }
-          else if(this.current_state == this.states.fist){
-
           }
         }
 
@@ -260,15 +257,15 @@ class GestureDetector {
   }
 
   start_manual() {
-    if (this.automatic_controller.connected()) {
-      this.automatic_controller.disconnect();
+    if (this.hand_made_controller.connected()) {
+      this.hand_made_controller.disconnect();
     }
-    this.automatic_controller.connect();
+    this.hand_made_controller.connect();
   }
 
   start_automatic() {
-    if (this.hand_made_controller.connected()) {
-      this.hand_made_controller.disconnect();
+    if (this.automatic_controller.connected()) {
+      this.automatic_controller.disconnect();
     }
     this.automatic_controller.connect();
   }
