@@ -3,13 +3,13 @@ class GestureDetector {
   constructor(waiting_thres) {
     this.waiting_thres = waiting_thres;
     this.frame_waiting = 0;
-    this.states = {quiet: "quiet", fist: "fist", pointer: "pointer", turned: "turned", fist_vertical : "fist_vertical", fist_horizontal : "fist_horizontal"};
+    this.states = {quiet: "quiet", fist: "fist", pointer: "pointer", turned: "turned", fist_vertical: "fist_vertical", fist_horizontal: "fist_horizontal"};
     this.current_state = this.states.quiet;
     this.current_position = {x: 0.0, y: 0.0, z: 0.0};
     this.sphere_center = this.current_position;
     this.sphere_radius = 15;
     this.volteado = false;
-    this.set_neural_network(Network.fromJSON(gesture_network));
+    this.set_neural_network(synaptic.Network.fromJSON(gesture_network));
     this.state_callbacks = {
       "quiet": {
         on: function() {},
@@ -244,8 +244,8 @@ class GestureDetector {
         input[3*i+2] = hand.fingers[i].direction[2];
       }
       input[15] = hand.roll();
-      result = this.neural_network.activate(input);
-      index = result.indexOf(Math.max(...result));
+      var result = this.neural_network.activate(input);
+      var index = result.indexOf(Math.max(...result));
       if (index == 0) {
         console.log("Quiet");
       } else if (index == 1) {
