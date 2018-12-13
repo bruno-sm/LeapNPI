@@ -7,6 +7,7 @@ class GestureDetector {
     this.current_state = this.states.quiet;
     this.current_position = {x: 0.0, y: 0.0, z: 0.0};
     this.volteado = false;
+    this.set_neural_network(Network.fromJSON(gesture_network));
     this.state_callbacks = {
       "quiet": {
         on: function() {},
@@ -36,40 +37,9 @@ class GestureDetector {
     this._onMove = function(position, diff) {
       console.log("Posición actual de la mano: " + position.x + ", " + position.y + ', ' + position.z);
     };
-  }
 
-  set onMove(callback) {
-    this._onMove = callback;
-  }
-
-  set onFist(callback) {
-    this.state_callbacks[this.states.fist].on = callback;
-  }
-
-  set onFistRelease(callback) {
-    this.state_callbacks[this.states.fist].release = callback;
-  }
-
-  set onPointer(callback) {
-    this.state_callbacks[this.states.pointer].on = callback;
-  }
-
-  set onPointerRelease(callback) {
-    this.state_callbacks[this.states.pointer].release = callback;
-  }
-
-  set onTurned(callback) {
-    this.state_callbacks[this.states.turned].on = callback;
-  }
-
-  set onTurnedRelease(callback) {
-    this.state_callbacks[this.states.turned].release = callback;
-  }
-
-  start() {
-    Leap.loop({background: true}, {
+    this.hand_made_controller = Leap.loop({background: true}, {
       hand: (hand) => {
-        
         var some_gesture = false;
         var pos_x = (hand.screenPosition()[0])*1.5-500;
         var pos_y = (hand.screenPosition()[1]+700)*1.5-500;
@@ -223,7 +193,78 @@ class GestureDetector {
         finger.data({arrows: null});
 
       });
-    })
-    .connect();
+    });
+  }
+
+  set onMove(callback) {
+    this._onMove = callback;
+  }
+
+  set onFist(callback) {
+    this.state_callbacks[this.states.fist].on = callback;
+  }
+
+  set onFistRelease(callback) {
+    this.state_callbacks[this.states.fist].release = callback;
+  }
+
+  set onPointer(callback) {
+    this.state_callbacks[this.states.pointer].on = callback;
+  }
+
+  set onPointerRelease(callback) {
+    this.state_callbacks[this.states.pointer].release = callback;
+  }
+
+  set onTurned(callback) {
+    this.state_callbacks[this.states.turned].on = callback;
+  }
+
+  set onTurnedRelease(callback) {
+    this.state_callbacks[this.states.turned].release = callback;
+  }
+
+  set_neural_network(n) {
+    this.neural_network = n;
+    this.automatic_controller = Leap.loop({background: true}, {hand: (hand) => {
+      var input = [0.0, 0.0, 0.0,
+                   0.0, 0.0, 0.0,
+                   0.0, 0.0, 0.0,
+                   0.0, 0.0, 0.0,
+                   0.0, 0.0, 0.0,
+                   0.0];
+      for (var i=0; i < 5; i++) {
+        input[3*i] = hand.fingers[i].direction[0];
+        input[3*i+1] = hand.fingers[i].direction[1];
+        input[3*i+2] = hand.fingers[i].direction[2];
+      }
+      input[15] = hand.roll();
+      result = this.neural_network.activate(input);
+      index = result.indexOf(Math.max(...result));
+      if (index == 0) {
+        console.log("Quiet");
+      } else if (index == 1) {
+        console.log("Fist");
+      } else if (index == 2) {
+        console.log("Pointer");
+      } else if (index == 3) {
+        console.log("Turned");
+      }
+      console.log(result);
+    }});
+  }
+
+  start_manual() {
+    if (this.automatic_controller.connected()) {
+      this.automatic_controller.disconnect();
+    }
+    this.automatic_controller.connect();
+  }
+
+  start_automatic() {
+    if (this.hand_made_controller.connected()) {
+      this.hand_made_controller.disconnect();
+    }
+    this.automatic_controller.connect();
   }
 }

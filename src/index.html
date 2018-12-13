@@ -13,6 +13,7 @@
   <script src="lib/leap-plugins-0.1.6.js"></script>
   <script src="lib/three.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/synaptic/1.1.4/synaptic.js"></script>
+  <script type="text/javascript" src="network.json"></script>
   <script src="gesture-detector.js"></script>
   <script src="script.js"></script>
   <!--
@@ -32,7 +33,7 @@
       </div>
       <div id="paramsExplain">
         <div id="paramAExplain" class="paramExplain">
-          <span class="paramExplainText">
+          <span class="paramExplainText" id="paramAExplainText">
             <span class="a">a</span> controla la <span class="a">intensidad</span> de la onda. Prueba a cambiarla con
           </span>
           <div class="paramGesto">
@@ -40,7 +41,7 @@
           </div>
         </div><!--
         --><div id="paramBExplain" class="paramExplain">
-          <span class="paramExplainText">
+          <span class="paramExplainText" id="paramBExplainText">
             <span class="b">b</span> controla la <span class="b">amplitud</span> de la onda. Prueba a cambiarla con
           </span>
           <div class="paramGesto">
