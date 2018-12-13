@@ -285,15 +285,22 @@ class GestureDetector {
 
 
     })
-    .on('handLost', function(hand){
+    .on('handLost', (hand) => {
+      this.state_callbacks[this.current_state].release();
+      this.current_state = this.states.quiet;
+      this.state_callbacks[this.current_state].on();
+      this.current_position = {x: 0.0, y: 0.0, z: 0.0};
+      this.sphere_center = this.current_position;
+      this.volteado = false;
+      this.last_input = [0.0, 0.0, 0.0,
+                         0.0, 0.0, 0.0,
+                         0.0, 0.0, 0.0,
+                         0.0, 0.0, 0.0,
+                         0.0, 0.0, 0.0,
+                         0.0];
 
-      hand.fingers.forEach(function (finger) {
-        var arrows = finger.data('arrows');
+       this.state_callbacks[this.states.turned].release;
 
-
-        finger.data({arrows: null});
-
-      });
     }).connect();
   }
 }
