@@ -159,7 +159,7 @@ function main() {
     console.log("Volteo ya no detectado");
   };
 
-  detector.start();
+  detector.start_automatic();
 }
 
 

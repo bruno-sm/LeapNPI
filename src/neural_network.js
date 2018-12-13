@@ -102,6 +102,11 @@ function recognice() {
     }
     console.log(result);
   }}).connect();
+
+  document.addEventListener('keyup', function (event) {
+    console.log("Print");
+    download("network.json", "gesture_network=" + JSON.stringify(perceptron) + ";");
+  });
 }
 
 function main() {
