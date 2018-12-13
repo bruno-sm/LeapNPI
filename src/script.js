@@ -51,7 +51,6 @@ function show_menu() {
   document.getElementById('cursor').style.visibility = 'visible';
   var buttons = document.getElementsByClassName("menuButton");
   for (var i = 0; i < buttons.length; i++) {
-    console.log(buttons[i].id + " clicked event");
     buttons[i].onclick = function () {
       console.log("clicked");
     }
@@ -65,7 +64,80 @@ function hide_menu() {
   document.getElementById('cursor').style.visibility = 'hidden';
 }
 
-var volteado = false;
+
+function train_neural_network(gesture_detector) {
+  if (localStorage.gesture_network) {
+    var network = synaptic.Network.fromJSON(localStorage.gesture_network);
+  } else {
+    var network = synaptic.Network.fromJSON(gesture_network);
+  }
+  var elapsed_time = 0;
+  var training_time = 20000;
+  var training_set = [];
+
+  // Cambia el resultado esperado cada 20 segundos
+  var expected_output = [1, 0, 0, 0];
+  output_timer = setInterval(function(){
+    elapsed_time += 500;
+    if (elapsed_time < training_time) {
+      expected_output = [1, 0, 0, 0];
+    } else if (elapsed_time < 2*training_time) {
+      expected_output = [0, 1, 0, 0];
+    } else if (elapsed_time < 3*training_time) {
+      expected_output = [0, 0, 1, 0];
+    } else {
+      expected_output = [0, 0, 0, 1];
+    }
+  }, 500);
+
+  // Aumenta el conjunto de entrenamiento cada 0.1 segundos
+  var sample_time = 100;
+  var wait_time = 3000.0; // Tiempo de espera para que el usuario cambie el gesto
+  sample_timer = setInterval(function(){
+    if ((elapsed_time > (2/3 * wait_time)) &&
+        (elapsed_time < training_time - (1/3 * wait_time) || elapsed_time > training_time + (2/3 * wait_time)) &&
+        (elapsed_time < 2*training_time - (1/3 * wait_time) || elapsed_time > 2*training_time + (2/3 * wait_time)) &&
+        (elapsed_time < 3*training_time - (1/3 * wait_time) || elapsed_time > 3*training_time + (2/3 * wait_time))) {
+          var input = gesture_detector.last_input;
+          training_set.push({
+            input: input.slice(),
+            output: expected_output
+          });
+        }
+  }, sample_time);
+
+  // Da instrucciones
+  console.log("Pon la mano extendida");
+  setTimeout(function(){console.log("Cierra el puño");}, training_time);
+  setTimeout(function(){console.log("Señala");}, 2*training_time);
+  setTimeout(function(){console.log("Gira la mano");}, 3*training_time);
+
+  // Termina el muestreo y entrena a la red neuronal
+  setTimeout(function(){
+    console.log("Termina el sampleo");
+    clearInterval(output_timer);
+    clearInterval(sample_timer);
+    var trainer = new synaptic.Trainer(network);
+    trainer.train(training_set);
+    gesture_detector.set_neural_network(network);
+    console.log("Red entrenada");
+  }, 4*training_time);
+}
+
+
+// Descarga un archivo
+function download(filename, text) {
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+}
 
 
 function main() {
@@ -73,21 +145,27 @@ function main() {
   var b = 3;
   var dom_x = [-6, 6];
   var dom_y = [-6, 6];
+  var detector = new GestureDetector(30);
   change_function(functions[0]);
   plot(a, b, dom_x, dom_y);
 
   var menu = false;
-  document.body.onkeypress = function() {
-    if (!menu) {
-      show_menu();
-      menu = true;
+  document.addEventListener('keyup', function (event) {
+    var key = event.key || event.keyCode;
+    if (key === 't') {
+      train_neural_network(detector);
+    } else if (key == 'd') {
+        download("network.json", "gesture_network=" + JSON.stringify(detector.neural_network) + ";");
     } else {
-      hide_menu();
-      menu = false;
+      if (!menu) {
+        show_menu();
+        menu = true;
+      } else {
+        hide_menu();
+        menu = false;
+      }
     }
-  }
-
-  var detector = new GestureDetector(30);
+  });
 
   var on_pointer_time = new Date();
 
@@ -109,7 +187,7 @@ function main() {
         var element = document.elementFromPoint(cursor_var_left, cursor_var_top);
         if (element != null && element.className == "menuButton") {
           element.classList.add('clickedButton');
-          setInterval(function(){element.classList.remove('clickedButton');},250);
+          setTimeout(function(){element.classList.remove('clickedButton');},250);
           element.click();
           on_pointer_time = new Date();
         }
@@ -161,7 +239,7 @@ function main() {
     console.log("Volteo ya no detectado");
   };
 
-  detector.manual();
+  detector.automatic();
   detector.start();
 }
 

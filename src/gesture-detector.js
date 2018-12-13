@@ -9,6 +9,12 @@ class GestureDetector {
     this.sphere_center = this.current_position;
     this.sphere_radius = 15;
     this.volteado = false;
+    this.last_input = [0.0, 0.0, 0.0,
+                       0.0, 0.0, 0.0,
+                       0.0, 0.0, 0.0,
+                       0.0, 0.0, 0.0,
+                       0.0, 0.0, 0.0,
+                       0.0];
     if (localStorage.gesture_network) {
       this.set_neural_network(synaptic.Network.fromJSON(localStorage.gesture_network));
     } else {
@@ -90,6 +96,7 @@ class GestureDetector {
   start() {
     Leap.loop({background: true}, {
       hand: (hand) => {
+        // Actualiza la posicion
         var pos_x = (hand.screenPosition()[0])*1.5-500;
         var pos_y = (hand.screenPosition()[1]+700)*1.5-500;
         var pos_z = hand.screenPosition()[2]/3-100;
@@ -100,20 +107,17 @@ class GestureDetector {
         this.current_position.y = pos_y;
         this.current_position.z = pos_z;
         this._onMove(this.current_position, diff, this.current_state);
+
+        // Actualiza last_input
+        for (var i=0; i < 5; i++) {
+          this.last_input[3*i] = hand.fingers[i].direction[0];
+          this.last_input[3*i+1] = hand.fingers[i].direction[1];
+          this.last_input[3*i+2] = hand.fingers[i].direction[2];
+        }
+        this.last_input[15] = hand.roll();
+
         if (this.mode == "automatic") {
-          var input = [0.0, 0.0, 0.0,
-                       0.0, 0.0, 0.0,
-                       0.0, 0.0, 0.0,
-                       0.0, 0.0, 0.0,
-                       0.0, 0.0, 0.0,
-                       0.0];
-          for (var i=0; i < 5; i++) {
-            input[3*i] = hand.fingers[i].direction[0];
-            input[3*i+1] = hand.fingers[i].direction[1];
-            input[3*i+2] = hand.fingers[i].direction[2];
-          }
-          input[15] = hand.roll();
-          var result = this.neural_network.activate(input);
+          var result = this.neural_network.activate(this.last_input);
           var index = result.indexOf(Math.max(...result));
           if (index == 0) {
             console.log("Quiet");
