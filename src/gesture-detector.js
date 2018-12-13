@@ -3,9 +3,11 @@ class GestureDetector {
   constructor(waiting_thres) {
     this.waiting_thres = waiting_thres;
     this.frame_waiting = 0;
-    this.states = {quiet: "quiet", fist: "fist", pointer: "pointer", turned: "turned", fist_vertical = "fist_vertical", fist_horizontal = "fist_horizontal"};
+    this.states = {quiet: "quiet", fist: "fist", pointer: "pointer", turned: "turned", fist_vertical : "fist_vertical", fist_horizontal : "fist_horizontal"};
     this.current_state = this.states.quiet;
     this.current_position = {x: 0.0, y: 0.0, z: 0.0};
+    this.sphere_center = this.current_position;
+    this.sphere_radius = 15;
     this.volteado = false;
     this.set_neural_network(Network.fromJSON(gesture_network));
     this.state_callbacks = {
@@ -72,12 +74,15 @@ class GestureDetector {
           cos_in = new_cos*cos_in;
         }
         if(cos_in > 0.90 && best_v > 0.5 && v[0].dot((new THREE.Vector3).fromArray([0,-1,0])) > 0.3 &&
-           (this.current_state == this.states.quiet || this.current_stat == this.states.fist)){
+           (this.current_state == this.states.quiet || this.current_state == this.states.fist)){
           some_gesture = true;
           if(this.current_state != this.states.fist){
             this.state_callbacks[this.current_state].release();
             this.current_state = this.states.fist;
             this.state_callbacks[this.current_state].on();
+          }
+          else if(this.current_state == this.states.fist){
+
           }
         }
 
