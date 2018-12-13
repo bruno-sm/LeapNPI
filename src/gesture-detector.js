@@ -6,6 +6,8 @@ class GestureDetector {
     this.states = {quiet: "quiet", fist: "fist", pointer: "pointer", turned: "turned", fist_vertical: "fist_vertical", fist_horizontal: "fist_horizontal"};
     this.current_state = this.states.quiet;
     this.current_position = {x: 0.0, y: 0.0, z: 0.0};
+    this.sphere_center = this.current_position;
+    this.sphere_radius = 15;
     this.volteado = false;
     if (localStorage.gesture_network) {
       this.set_neural_network(synaptic.Network.fromJSON(localStorage.gesture_network));
