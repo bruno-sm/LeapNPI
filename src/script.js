@@ -122,14 +122,6 @@ function main() {
   };
 
   detector.start();
-
-  var perceptron = new synaptic.Architect.Perceptron(2,3,1);
-  var trainer = new synaptic.Trainer(perceptron);
-  trainer.XOR();
-  console.log("Perceptron (0,0): " + perceptron.activate([0,0])[0].toFixed(3));
-  console.log("Perceptron (0,1): " + perceptron.activate([0,1])[0].toFixed(3));
-  console.log("Perceptron (1,0): " + perceptron.activate([1,0])[0].toFixed(3));
-  console.log("Perceptron (1,1): " + perceptron.activate([0,0])[0].toFixed(3));
 }
 
 
