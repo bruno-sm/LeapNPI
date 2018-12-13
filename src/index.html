@@ -6,11 +6,14 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
    <link href="https://fonts.googleapis.com/css?family=Crimson+Text" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="styles.css" />
-  <script src="https://unpkg.com/d3@3.5.17/d3.min.js"></script>
-  <script src="https://unpkg.com/function-plot@1.18.1/dist/function-plot.js"></script>
+  <script src="lib/d3.js"></script>
+  <script src="lib/d3.min.js"></script>
+  <script src="lib/function-plot.js"></script>
   <script src="lib/leap-0.6.4.js"></script>
   <script src="lib/leap-plugins-0.1.6.js"></script>
   <script src="lib/three.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/synaptic/1.1.4/synaptic.js"></script>
+  <script src="gesture-detector.js"></script>
   <script src="script.js"></script>
   <!--
   <style type="text/css">#connect-leap{zoom: 0.4;}</style>
@@ -18,19 +21,14 @@
 </head>
 <body>
   <main role="main" id="app">
-    <!--div class="menu">
-      Menú
-      <div class="menuButton"> Calibrar </div>
-      <div class="menuButton"> Modo Zurdo </div>
-    </div-->
-    <span id="plot">
+    <div id="plot">
       <div id="moveCont">
         <img class="gesto" src="img/fist.svg" alt="Gesto para mover la gráfica">
       </div>
-    </span>
+    </div>
     <section id="explain">
       <div id="functionExpressionContainer">
-        <span id="functionExpression">f(x) = <span class="a">a</span> sin(<span class="b">b</span>x)</span>
+        <span id="functionExpression">f(x) = <span id="a" class="a">a</span> sin(<span id="b" class="b">b</span>x)</span>
       </div>
       <div id="paramsExplain">
         <div id="paramAExplain" class="paramExplain">
@@ -55,23 +53,23 @@
 
   <div id="menu">
     <div id="menuBox">
-      <div id="menuTitle">
-        <span id="menuText">Menú</span>
-      </div>
-      <div class="menuButton">
+      <div class="menuButton" id="menuButton1">
         <span class="menuButtonText">Botón 1</span>
-      </div>
-      <div class="menuButton">
+      </div><!--
+      --><div class="menuButton" id="menuButton2">
         <span class="menuButtonText">Botón 2</span>
-      </div>
-      <div class="menuButton">
+      </div><!--
+      --><div class="menuButton" id="menuButton3">
         <span class="menuButtonText">Botón 3</span>
-      </div>
-      <div class="menuButton">
+      </div><!--
+      --><div class="menuButton" id="menuButton4">
         <span class="menuButtonText">Botón 4</span>
-      </div>
-      <div class="menuButton">
+      </div><!--
+      --><div class="menuButton" id="menuButton5">
         <span class="menuButtonText">Botón 5</span>
+      </div><!--
+      --><div class="menuButton" id="menuButton6">
+        <span class="menuButtonText">Botón 6</span>
       </div>
     </div>
 
