@@ -24,15 +24,15 @@ var dom_ref_y = [-6,6];
 function plot(a_1,b_1, dom_x_1, dom_y_1) {
   var target = document.getElementById('plot');
   var fn_str = a_1 + '*sin(' + b_1 + '*x)';
-  var funP = functionPlot({
+  functionPlot({
     target: target,
     width: target.clientWidth,
     height: target.clientHeight,
     data: [{
       fn: fn_str
     }]
-  })
-  funP.programmaticZoom(dom_x_1, dom_y_1);
+  }).programmaticZoom(dom_x_1, dom_y_1);
+  
   document.body.onresize = function() {
     var fn_str = a_1 + '*sin(' + b_1 + '*x)';
     functionPlot({
@@ -226,7 +226,7 @@ Leap.loop({background: true}, {
       if(palm_x > 0.4){
         volteado = false;
       }
-      if(palm_z < -0.4 || palm_z > 0.4){
+      if(palm_z < -0.7 || palm_z > 0.7){
         volteado = false;
       }
       if(cos_in < 0.8){
