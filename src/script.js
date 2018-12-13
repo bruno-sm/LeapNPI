@@ -28,6 +28,13 @@ function show_menu() {
   document.getElementById('app').style.filter = 'blur(5px)';
   document.getElementById('menu').style.visibility = 'visible';
   document.getElementById('cursor').style.visibility = 'visible';
+  var buttons = document.getElementsByClassName("menuButton");
+  for (var i = 0; i < buttons.length; i++) {
+    console.log(buttons[i].id + " clicked event");
+    buttons[i].onclick = function () {
+      console.log("clicked");
+    }
+  }
 }
 
 
@@ -74,6 +81,15 @@ function main() {
       //console.log("Pointer elapsed time: " + elapsed_time);
       document.getElementById('cursorCircle').style.height = Math.max(10, (30 - elapsed_time/100)) + 'pt';
       document.getElementById('cursorCircle').style.width = Math.max(10, (30 - elapsed_time/100)) + 'pt';
+      if (menu && elapsed_time >= 2000) {
+        var element = document.elementFromPoint(pos.x, pos.y);
+        if (element != null && element.className == "menuButton") {
+          element.classList.add('clickedButton');
+          setInterval(function(){element.classList.remove('clickedButton');},250);
+          element.click();
+          on_pointer_time = new Date();
+        }
+      }
     }
 
     if (state == detector.states.fist) {
