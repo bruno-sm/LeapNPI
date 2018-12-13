@@ -93,7 +93,7 @@ function main() {
 
   detector.onMove = function(pos, diff, state) {
     //console.log("Posicion de la mano " + pos.x +"," + pos.y + "," + pos.z);
-    if (state == detector.states.quiet || state == detector.states.pointer) {
+    if (state == detector.states.quiet) {
       document.getElementById('cursor').style.top = pos.y + "px";
       document.getElementById('cursor').style.left = pos.x + "px";
     }
@@ -103,8 +103,10 @@ function main() {
       //console.log("Pointer elapsed time: " + elapsed_time);
       document.getElementById('cursorCircle').style.height = Math.max(10, (30 - elapsed_time/100)) + 'pt';
       document.getElementById('cursorCircle').style.width = Math.max(10, (30 - elapsed_time/100)) + 'pt';
+      cursor_var_top = parseInt(document.getElementById('cursor').style.top.replace('px', ''), 10);
+      cursor_var_left = parseInt(document.getElementById('cursor').style.left.replace('px', ''), 10);
       if (menu && elapsed_time >= 2000) {
-        var element = document.elementFromPoint(pos.x, pos.y);
+        var element = document.elementFromPoint(cursor_var_left, cursor_var_top);
         if (element != null && element.className == "menuButton") {
           element.classList.add('clickedButton');
           setInterval(function(){element.classList.remove('clickedButton');},250);
