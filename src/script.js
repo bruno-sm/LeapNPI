@@ -288,7 +288,8 @@ function main() {
     console.log("Volteo ya no detectado");
   };
 
-  detector.start_manual();
+  detector.manual();
+  detector.start();
 }
 
 
