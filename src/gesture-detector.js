@@ -3,7 +3,7 @@ class GestureDetector {
   constructor(waiting_thres) {
     this.waiting_thres = waiting_thres;
     this.frame_waiting = 0;
-    this.states = {quiet: "quiet", fist: "fist", pointer: "pointer", turned: "turned"};
+    this.states = {quiet: "quiet", fist: "fist", pointer: "pointer", turned: "turned", fist_vertical = "fist_vertical", fist_horizontal = "fist_horizontal"};
     this.current_state = this.states.quiet;
     this.current_position = {x: 0.0, y: 0.0, z: 0.0};
     this.volteado = false;
@@ -21,6 +21,14 @@ class GestureDetector {
         release: function() {}
       },
       "turned": {
+        on: function() {},
+        release: function() {}
+      },
+      "fist_vertical": {
+        on: function() {},
+        release: function() {}
+      },
+      "fist_horizontal": {
         on: function() {},
         release: function() {}
       }
@@ -61,7 +69,7 @@ class GestureDetector {
   start() {
     Leap.loop({background: true}, {
       hand: (hand) => {
-
+        
         var some_gesture = false;
         var pos_x = (hand.screenPosition()[0])*1.5-500;
         var pos_y = (hand.screenPosition()[1]+700)*1.5-500;
