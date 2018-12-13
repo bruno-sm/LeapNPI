@@ -3,7 +3,7 @@ class GestureDetector {
   constructor(waiting_thres) {
     this.waiting_thres = waiting_thres;
     this.frame_waiting = 0;
-    this.states = {quiet: "quiet", fist: "fist", pointer: "pointer", turned: "turned", fist_vertical: "fist_vertical", fist_horizontal: "fist_horizontal"};
+    this.states = {quiet: "quiet", fist: "fist", pointer: "pointer", turned: "turned"};
     this.current_state = this.states.quiet;
     this.current_position = {x: 0.0, y: 0.0, z: 0.0};
     this.sphere_center = this.current_position;
