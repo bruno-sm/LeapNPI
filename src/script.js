@@ -51,7 +51,7 @@ function change_function(f) {
   document.getElementById("paramBExplainText").innerHTML = f.explain_b;
   rango_a = f.rango_a;
   rango_b = f.rango_b;
-  console.log("HEEEEEEEEEEEEEEEEEEEEY");
+  //console.log("HEEEEEEEEEEEEEEEEEEEEY");
 }
 
 
@@ -59,7 +59,7 @@ function plot(a_1,b_1) {
   var target = document.getElementById('plot');
   var fn_str = current_function.expression.replace(/variable_a/g, a_1);
   fn_str = fn_str.replace(/variable_b/g, b_1);
-  console.log(fn_str);
+  //console.log(fn_str);
   functionPlot({
     target: target,
     width: target.clientWidth,
@@ -271,7 +271,7 @@ function main() {
           }
         }
 
-        console.log("Estoy en el estado " + state_fist_moving);
+        //console.log("Estoy en el estado " + state_fist_moving);
       if(state_fist_moving == 1){
         a -= a * diff.y/1000;
         b += b * diff.x/1000;
@@ -326,28 +326,28 @@ function main() {
   };
 
   detector.onFist = function() {
-    console.log("Puño detectado");
+    //console.log("Puño detectado");
     document.getElementById('moveCont').style.boxShadow = "0px 0px 10px #f6828c";
   };
 
   detector.onFistRelease = function() {
-    console.log("Puño ya no detectado");
+    //console.log("Puño ya no detectado");
     document.getElementById('moveCont').style.boxShadow = "none";
   };
 
   detector.onPointer = function() {
-    console.log("Pointer detectado");
+    //console.log("Pointer detectado");
     on_pointer_time = new Date();
   };
 
   detector.onPointerRelease = function() {
-    console.log("Pointer ya no detectado");
+    //console.log("Pointer ya no detectado");
     document.getElementById('cursorCircle').style.height = '30pt';
     document.getElementById('cursorCircle').style.width = '30pt';
   };
 
   detector.onTurned = function() {
-    console.log("Volteo detectado");
+    //console.log("Volteo detectado");
     if (!menu) {
       show_menu();
       menu = true;
@@ -358,10 +358,10 @@ function main() {
   };
 
   detector.onTurnedRelease = function() {
-    console.log("Volteo ya no detectado");
+    //console.log("Volteo ya no detectado");
   };
 
-  detector.manual();
+  detector.automatic();
   detector.start();
 }
 
