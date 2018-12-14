@@ -226,9 +226,7 @@ class GestureDetector {
             this.volteado = true;
           }
           if(this.volteado){
-            if(palm_x > 0.4){
-              this.volteado = false;
-            }
+            
             if(palm_z < -0.4 || palm_z > 0.4){
               this.volteado = false;
             }
