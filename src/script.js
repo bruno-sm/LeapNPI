@@ -7,7 +7,9 @@ var functions = [
     dom_x: [-6,6],
     dom_y: [-6,6],
     rango_a: [-100, 100],
-    rango_b: [-100, 100]
+    rango_b: [-100, 100],
+    a:2,
+    b:3
   },
 
   {
@@ -18,7 +20,9 @@ var functions = [
     dom_x: [-6,6],
     dom_y: [-6,6],
     rango_a: [-100, 100],
-    rango_b: [-100, 100]
+    rango_b: [-100, 100],
+    a:2,
+    b:3
   },
 
   {
@@ -29,7 +33,9 @@ var functions = [
     dom_x: [-12,12],
     dom_y: [-1,1],
     rango_a: [0.001, 100],
-    rango_b: [-100, 100]
+    rango_b: [-100, 100],
+    a:1,
+    b:0
   }
 ];
 
@@ -51,7 +57,17 @@ function change_function(f) {
   document.getElementById("paramBExplainText").innerHTML = f.explain_b;
   rango_a = f.rango_a;
   rango_b = f.rango_b;
-  //console.log("HEEEEEEEEEEEEEEEEEEEEY");
+  a = f.a;
+  b = f.b;
+  var v_a = document.getElementsByClassName('a_format');
+  var i;
+  for(i = 0; i < v_a.length; i++){
+    v_a[i].innerHTML = Math.round(a*100)/100;
+  }
+  var v_b = document.getElementsByClassName('b_format');
+  for(i = 0; i < v_b.length; i++){
+    v_b[i].innerHTML = Math.round(b*100)/100;
+  }
 }
 
 
@@ -199,8 +215,17 @@ function download(filename, text) {
 
 
 function main() {
-  var detector = new GestureDetector(30);
-  change_function(current_function);
+  var detector = new GestureDetector(4);
+  f = current_function;
+  document.getElementById("functionExpression").innerHTML = f.html;
+  document.getElementById("paramAExplainText").innerHTML = f.explain_a;
+  document.getElementById("paramBExplainText").innerHTML = f.explain_b;
+  rango_a = f.rango_a;
+  rango_b = f.rango_b;
+  a = f.a;
+  b = f.b;
+  var v_a = document.getElementsByClassName('a_format');
+  var i;
   plot(a, b, dom_x, dom_y);
 
   var menu = false;
@@ -230,8 +255,26 @@ function main() {
   detector.onMove = function(pos, diff, state) {
     //console.log("Posicion de la mano " + pos.x +"," + pos.y + "," + pos.z);
     if (state == detector.states.quiet) {
-      document.getElementById('cursor').style.top = pos.y + "px";
-      document.getElementById('cursor').style.left = pos.x + "px";
+      var py = pos.y;
+      var px = pos.x;
+      var topeMH = 50;
+      var topeMW = 50;
+      if(pos.y <= topeMH){
+        py = topeMH;
+      }
+      if(pos.x <= topeMW){
+        px = topeMW;
+      }
+      var topeH = window.innerHeight-topeMH;
+      if(pos.y >= topeH){
+        py = topeH;
+      }
+      var topeW = window.innerWidth-topeMW;
+      if(pos.x >= topeW){
+        px = topeW;
+      }
+      document.getElementById('cursor').style.top = py + "px";
+      document.getElementById('cursor').style.left = px + "px";
     }
 
     if (state == detector.states.pointer) {
@@ -273,8 +316,8 @@ function main() {
 
         //console.log("Estoy en el estado " + state_fist_moving);
       if(state_fist_moving == 1){
-        a -= a * diff.y/1000;
-        b += b * diff.x/1000;
+        a -= Math.max(Math.abs(a),1) * diff.y/1000;
+        b += Math.max(Math.abs(b),1) * diff.x/1000;
         if(a > rango_a[1])
           a = rango_a[1];
         else if(a < rango_a[0])
@@ -294,7 +337,7 @@ function main() {
         }
       }
       else if(state_fist_moving == 2){
-          b += b * diff.x/1000;
+          b += Math.max(Math.abs(b),1) * diff.x/1000;
           if(b > rango_b[1]){
             b = rango_b[1];
           }
@@ -308,7 +351,7 @@ function main() {
           }
       }
       else if(state_fist_moving == 3){
-        a -= a * diff.y/1000;
+        a -= Math.max(Math.abs(a),1) * diff.y/1000;
         if(a > rango_a[1]){
           a = rango_a[1];
         }
@@ -323,6 +366,8 @@ function main() {
       }
       plot(a, b, dom_x, dom_y);
     }
+    functions[current_number_f].a = a;
+    functions[current_number_f].b = b;
   };
 
   detector.onFist = function() {
