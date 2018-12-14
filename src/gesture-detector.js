@@ -47,7 +47,7 @@ class GestureDetector {
       }
     };
     this._onMove = function(position, diff) {
-      console.log("Posición actual de la mano: " + position.x + ", " + position.y + ', ' + position.z);
+      //console.log("Posición actual de la mano: " + position.x + ", " + position.y + ', ' + position.z);
     };
 
     this.manual();
@@ -120,28 +120,28 @@ class GestureDetector {
           var result = this.neural_network.activate(this.last_input);
           var index = result.indexOf(Math.max(...result));
           if (index == 0) {
-            console.log("Quiet");
+            //console.log("Quiet");
             if(this.current_state != this.states.quiet){
               this.state_callbacks[this.current_state].release();
               this.current_state = this.states.quiet;
               this.state_callbacks[this.current_state].on();
             }
           } else if (index == 1) {
-            console.log("Fist");
+            //console.log("Fist");
             if(this.current_state != this.states.fist){
               this.state_callbacks[this.current_state].release();
               this.current_state = this.states.fist;
               this.state_callbacks[this.current_state].on();
             }
           } else if (index == 2) {
-            console.log("Pointer");
+            //console.log("Pointer");
             if(this.current_state != this.states.pointer){
               this.state_callbacks[this.current_state].release();
               this.current_state = this.states.pointer;
               this.state_callbacks[this.current_state].on();
             }
           } else if (index == 3) {
-            console.log("Turned");
+            //console.log("Turned");
             if(this.current_state != this.states.turned){
               this.state_callbacks[this.current_state].release();
               this.current_state = this.states.turned;
@@ -247,7 +247,7 @@ class GestureDetector {
               this.frame_waiting = 0;
             }
           }
-          console.log("Estado actual: " + this.current_state);
+          //console.log("Estado actual: " + this.current_state);
         }
     }})
 

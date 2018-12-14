@@ -46,6 +46,7 @@ body {
   height: 80%;
   width: 100%;
   padding-top: 20pt;
+  position: relative;
 }
 
 .paramExplain{
@@ -61,6 +62,52 @@ body {
 
 .paramExplainText{
   width: 100%;
+}
+
+#trainingExplain{
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 85%;
+  background-color: #ffffff;
+  visibility: hidden;
+}
+
+#trainingExplainGestureAndTimer{
+  width: 34%;
+  height: 100%;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+#trainingExplainGesture{
+  width: 100%;
+  height: 66%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: red;
+}
+
+#trainingExplainTimer{
+  width: 100%;
+  height: 34%;
+  display: flex;
+  justify-content: center;
+  align-items: top;
+  background-color: orange;
+  font-size: 30pt;
+}
+
+#trainingExplainText{
+  display: inline-block;
+  vertical-align: middle;
+  width: 64%;
+  box-sizing: border-box;
+  text-align: center;
+  background-color: olive;
+  font-size: 20pt;
 }
 
 .paramGesto{
