@@ -9,40 +9,42 @@ var functions = [
     rango_a: [-100, 100],
     rango_b: [-100, 100],
     a:2,
-    b:3
+    b:3,
+    seen: false
   },
 
   {
     expression: 'variable_a*x*sin(variable_b*x)',
-    html: 'f(x)=<span class="a_format">a</span>x*sin(<span class="b_format">b</span>x)',
+    html: 'f(x)=<span class="a_format">a</span>x sin(<span class="b_format">b</span>x)',
     explain_a: '<span class="a">a</span> controla la <span class="a">intensidad ponderada</span> de la onda.',
-    explain_b: '<span class="b">b</span> controla el <span class="b">amplitud</span> de la onda.',
+    explain_b: '<span class="b">b</span> controla la <span class="b">amplitud</span> de la onda.',
     dom_x: [-6,6],
     dom_y: [-6,6],
     rango_a: [-100, 100],
     rango_b: [-100, 100],
     a:2,
-    b:3
+    b:3,
+    seen: false
   },
 
   {
     expression: '(1/(variable_a*sqrt(2*3.14159)))*exp((-1/2)*(x-variable_b)*(x-variable_b)/(variable_a*variable_a))',
-    html: 'f(x)=(1/(<span class="a_format">a</span>*sqrt(2*3.14159)))*exp((-1/2)*(x-<span class="b_format">b</span>)*(x-<span class="b_format">b</span>)/(<span id="a" class="a">a</span>*<span class="a_format">a</span>))',
-    explain_a: '<span class="a">a</span> controla la <span class="a">media</span> de la función Gaussiana.',
-    explain_b: '<span class="b">b</span> controla el <span class="b">desviación típica</span> de la función Gaussiana.',
+    html: 'f(x)=(<span class="a_format">σ</span> √(2π))<sup>-1</sup> e<sup>-<sup>(x-<span class="b_format">μ</span>)<sup>2</sup></sup>&frasl;<sub>2<span id="a" class="a_format">σ</span><sup>2</sup></sub></sup>',
+    explain_a: '<span class="a">σ</span> controla la <span class="a">desviación típica</span> de la función Gaussiana.',
+    explain_b: '<span class="b">μ</span> controla la <span class="b">media</span> de la función Gaussiana.',
     dom_x: [-12,12],
     dom_y: [-1,1],
     rango_a: [0.001, 100],
     rango_b: [-100, 100],
     a:1,
-    b:0
+    b:0,
+    seen: false
   }
 ];
 
 var rango_a;
 var rango_b;
-var current_number_f = 2;
-var current_function = functions[current_number_f];
+var current_function = 1;
 
 var a = 2;
 var b = 3;
@@ -50,8 +52,13 @@ var b = 3;
 var dom_x = [-6, 6];
 var dom_y = [-6, 6];
 
-function change_function(f) {
-  current_function = f;
+var detector = new GestureDetector(4);
+var menu = false;
+
+function change_function(fun_num, change_expression=true) {
+  current_function = fun_num;
+  var f = functions[current_function];
+  f.seen = true;
   document.getElementById("functionExpression").innerHTML = f.html;
   document.getElementById("paramAExplainText").innerHTML = f.explain_a;
   document.getElementById("paramBExplainText").innerHTML = f.explain_b;
@@ -59,21 +66,25 @@ function change_function(f) {
   rango_b = f.rango_b;
   a = f.a;
   b = f.b;
-  var v_a = document.getElementsByClassName('a_format');
-  var i;
-  for(i = 0; i < v_a.length; i++){
-    v_a[i].innerHTML = Math.round(a*100)/100;
+  if (change_expression){
+    var v_a = document.getElementsByClassName('a_format');
+    var i;
+    for(i = 0; i < v_a.length; i++){
+      v_a[i].innerHTML = Math.round(a*100)/100;
+    }
+    var v_b = document.getElementsByClassName('b_format');
+    for(i = 0; i < v_b.length; i++){
+      v_b[i].innerHTML = Math.round(b*100)/100;
+    }
   }
-  var v_b = document.getElementsByClassName('b_format');
-  for(i = 0; i < v_b.length; i++){
-    v_b[i].innerHTML = Math.round(b*100)/100;
-  }
+  plot(a, b);
 }
 
 
-function plot(a_1,b_1) {
+function plot(a_1, b_1) {
   var target = document.getElementById('plot');
-  var fn_str = current_function.expression.replace(/variable_a/g, a_1);
+  var f = functions[current_function];
+  var fn_str = f.expression.replace(/variable_a/g, a_1);
   fn_str = fn_str.replace(/variable_b/g, b_1);
   //console.log(fn_str);
   functionPlot({
@@ -83,7 +94,7 @@ function plot(a_1,b_1) {
     data: [{
       fn: fn_str
     }]
-  }).programmaticZoom(current_function.dom_x, current_function.dom_y);
+  }).programmaticZoom(f.dom_x, f.dom_y);
 
   document.body.onresize = function() {
     functionPlot({
@@ -103,39 +114,46 @@ function show_menu() {
   document.getElementById('menu').style.visibility = 'visible';
   document.getElementById('cursor').style.visibility = 'visible';
   var buttons = document.getElementsByClassName("menuButton");
+  menu = true;
 }
 
 function button1(){
-  if(current_number_f == 0){
-    current_number_f = 1;
+  if(current_function == 0){
+    current_function = 1;
   }
   else {
-    current_number_f = 0;
+    current_function = 0;
   }
   hide_menu();
-  menu = false;
-  change_function(functions[current_number_f]);
-  plot(a, b, dom_x, dom_y);
-
+  change_function(current_function, functions[current_function].seen);
 }
 
 function button2(){
-  if(current_number_f == 2){
-    current_number_f = 1;
+  if(current_function == 2){
+    current_function = 1;
   }
   else{
-    current_number_f = 2;
+    current_function = 2;
   }
   hide_menu();
-  menu = false;
-  change_function(functions[current_number_f]);
-  plot(a, b, dom_x, dom_y);
+  change_function(current_function, functions[current_function].seen);
+}
+
+function button3(){
+  if (detector.mode == "manual") {
+    document.getElementById('menuButton3').innerHTML = "Reconocimiento manual";
+    detector.automatic();
+  } else {
+    document.getElementById('menuButton3').innerHTML = "Reconocimiento automático";
+    detector.manual();
+  }
 }
 
 function hide_menu() {
   document.getElementById('app').style.filter = 'none';
   document.getElementById('menu').style.visibility = 'hidden';
   document.getElementById('cursor').style.visibility = 'hidden';
+  menu = false;
 }
 
 
@@ -215,20 +233,8 @@ function download(filename, text) {
 
 
 function main() {
-  var detector = new GestureDetector(4);
-  f = current_function;
-  document.getElementById("functionExpression").innerHTML = f.html;
-  document.getElementById("paramAExplainText").innerHTML = f.explain_a;
-  document.getElementById("paramBExplainText").innerHTML = f.explain_b;
-  rango_a = f.rango_a;
-  rango_b = f.rango_b;
-  a = f.a;
-  b = f.b;
-  var v_a = document.getElementsByClassName('a_format');
-  var i;
-  plot(a, b, dom_x, dom_y);
+  change_function(current_function, false);
 
-  var menu = false;
   document.addEventListener('keyup', function (event) {
     var key = event.key || event.keyCode;
     if (key === 't') {
@@ -238,10 +244,8 @@ function main() {
     } else {
       if (!menu) {
         show_menu();
-        menu = true;
       } else {
         hide_menu();
-        menu = false;
       }
     }
   });
@@ -406,7 +410,7 @@ function main() {
     //console.log("Volteo ya no detectado");
   };
 
-  detector.automatic();
+  detector.manual();
   detector.start();
 }
 

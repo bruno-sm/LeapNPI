@@ -22,9 +22,9 @@ body {
 #explain{
   height: 33%;
   width: 100%;
-  max-width: 800pt;
+  max-width: 1000pt;
   margin: auto;
-  margin-top: 20pt;
+  margin-top: 30pt;
 }
 
 
@@ -45,7 +45,7 @@ body {
 #paramsExplain{
   height: 80%;
   width: 100%;
-  padding-top: 20pt;
+  padding-top: 60pt;
   position: relative;
 }
 
