@@ -118,11 +118,6 @@ body {
   align-items: center;
 }
 
-.gesto{
-  max-width: 80%;
-  max-height: 80%;
-}
-
 .a{
   color: #08587B;
   font-family: 'Crimson Text', serif;
@@ -152,24 +147,6 @@ body {
   position: relative;
   bottom: 1ex;
   font-size: 80%;
-}
-
-#moveCont {
-  width: 60pt;
-  height: 60pt;
-  background-color: #ffffff;
-  border: solid;
-  border-radius: 100%;
-  border-color: #D4D4D4;
-  border-width: 1px;
-  padding: 1pt;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 4%;
-  left: 50%;
-  transform: translateX(-36%);
 }
 
 #menu {
@@ -252,21 +229,33 @@ body {
   position: absolute;
 }
 
-#menuGestoCont {
-  width: 80pt;
-  height: 100pt;
+#gestureIndicatorsCont {
+  width: 110pt;
+  height: 45pt;
   position: absolute;
-  top: 2%;
-  left: 92%;
-  transform: translateX(-50%);
+  top: 4%;
+  left: 95%;
+  transform: translateX(-100%);
   text-align: center;
   font-size: 13pt;
 }
 
-#menuGestoCirc {
-  width: 70pt;
-  height: 70pt;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.indicator {
+  width: 45pt;
+  height: 45pt;
+  transform: translateX(-50%);
+  display: inline-block;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  border: solid;
+  border-radius: 100%;
+  border-color: #D4D4D4;
+  border-width: 1px;
+  padding: 5pt;
+  margin-left: 10pt;
+}
+
+.gesto{
+  max-width: 100%;
+  max-height: 100%;
 }

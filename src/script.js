@@ -29,7 +29,7 @@ var functions = [
 
   {
     expression: '(1/(variable_a*sqrt(2*3.14159)))*exp((-1/2)*(x-variable_b)*(x-variable_b)/(variable_a*variable_a))',
-    html: 'f(x)=(<span class="a_format">σ</span> √(2π))<sup>-1</sup> e<sup>-<sup>(x-<span class="b_format">μ</span>)<sup>2</sup></sup>&frasl;<sub>2<span id="a" class="a_format">σ</span><sup>2</sup></sub></sup>',
+    html: 'f(x)=(<span class="a_format">σ</span> √(2π))<sup>-1</sup> e<sup><sup>-(x-<span class="b_format">μ</span>)<sup>2</sup></sup>&frasl;<sub>2<span id="a" class="a_format">σ</span><sup>2</sup></sub></sup>',
     explain_a: '<span class="a">σ</span> controla la <span class="a">desviación típica</span> de la función Gaussiana.',
     explain_b: '<span class="b">μ</span> controla la <span class="b">media</span> de la función Gaussiana.',
     dom_x: [-12,12],
@@ -44,7 +44,7 @@ var functions = [
 
 var rango_a;
 var rango_b;
-var current_function = 1;
+var current_function = 2;
 
 var a = 2;
 var b = 3;
@@ -341,6 +341,8 @@ function main() {
         }
       }
       else if(state_fist_moving == 2){
+          document.getElementById('fistVerticalInd').style.boxShadow = "none";
+          document.getElementById('fistHorizontalInd').style.boxShadow = "0px 0px 10px #f6828c";
           b += Math.max(Math.abs(b),1) * diff.x/1000;
           if(b > rango_b[1]){
             b = rango_b[1];
@@ -355,6 +357,8 @@ function main() {
           }
       }
       else if(state_fist_moving == 3){
+        document.getElementById('fistVerticalInd').style.boxShadow = "0px 0px 10px #f6828c";
+        document.getElementById('fistHorizontalInd').style.boxShadow = "none";
         a -= Math.max(Math.abs(a),1) * diff.y/1000;
         if(a > rango_a[1]){
           a = rango_a[1];
@@ -376,12 +380,14 @@ function main() {
 
   detector.onFist = function() {
     //console.log("Puño detectado");
-    document.getElementById('moveCont').style.boxShadow = "0px 0px 10px #f6828c";
+    document.getElementById('fistVerticalInd').style.boxShadow = "0px 0px 10px #f6828c";
+    document.getElementById('fistHorizontalInd').style.boxShadow = "0px 0px 10px #f6828c";
   };
 
   detector.onFistRelease = function() {
     //console.log("Puño ya no detectado");
-    document.getElementById('moveCont').style.boxShadow = "none";
+    document.getElementById('fistVerticalInd').style.boxShadow = "none";
+    document.getElementById('fistHorizontalInd').style.boxShadow = "none";
   };
 
   detector.onPointer = function() {
