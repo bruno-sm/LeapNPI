@@ -84,34 +84,61 @@ function change_function(fun_num, change_expression=true) {
       v_b[i].innerHTML = Math.round(b*100)/100;
     }
   }
-  plot(a, b);
+  plot(a, b, false);
 }
 
 
-function plot(a_1, b_1) {
+function plot(a_1, b_1, redraw = true) {
   var target = document.getElementById('plot');
   var f = functions[current_function];
   var fn_str = f.expression.replace(/variable_a/g, a_1);
   fn_str = fn_str.replace(/variable_b/g, b_1);
-  //console.log(fn_str);
-  functionPlot({
-    target: target,
-    width: target.clientWidth,
-    height: target.clientHeight,
-    data: [{
-      fn: fn_str
-    }]
-  }).programmaticZoom(f.dom_x, f.dom_y);
 
-  document.body.onresize = function() {
-    functionPlot({
+  if (redraw && plot.plot != null) {
+    plot.plot = functionPlot({
       target: target,
       width: target.clientWidth,
       height: target.clientHeight,
+      xAxis: {
+        domain: f.dom_x
+      },
+      yAxis: {
+        domain: f.dom_y
+      },
       data: [{
         fn: fn_str
       }]
-    })
+    });
+  } else {
+    //console.log(fn_str);
+    plot.plot = functionPlot({
+      target: target,
+      width: target.clientWidth,
+      height: target.clientHeight,
+      xDomain: f.dom_x,
+      yDomain: f.dom_y,
+      data: [{
+        fn: fn_str
+      }]
+    });
+    plot.plot.programmaticZoom(f.dom_x, f.dom_y);
+
+    document.body.onresize = () => {
+      plot.plot = functionPlot({
+        target: target,
+        width: target.clientWidth,
+        height: target.clientHeight,
+        xAxis: {
+          domain: f.dom_x
+        },
+        yAxis: {
+          domain: f.dom_y
+        },
+        data: [{
+          fn: fn_str
+        }]
+      });
+    }
   }
 }
 
@@ -200,6 +227,7 @@ function hide_menu() {
 
 
 function train_neural_network(gesture_detector) {
+  document.getElementById("trainingExplain").style.visibility = "visible";
   if (localStorage.gesture_network) {
     var network = synaptic.Network.fromJSON(localStorage.gesture_network);
   } else {
@@ -238,24 +266,42 @@ function train_neural_network(gesture_detector) {
             output: expected_output
           });
         }
+        document.getElementById("trainingExplainTimer").innerHTML = Math.ceil((training_time - elapsed_time%training_time)/1000) + "s";
   }, sample_time);
 
   // Da instrucciones
-  console.log("Pon la mano extendida");
-  setTimeout(function(){console.log("Cierra el puño");}, training_time);
-  setTimeout(function(){console.log("Señala");}, 2*training_time);
-  setTimeout(function(){console.log("Gira la mano");}, 3*training_time);
+  var instruction_element = document.getElementById("trainingExplainText");
+  var instruction_icon = document.getElementById("trainingGesture");
+  instruction_element.innerHTML = "Pon la mano extendida y muevela como si estuvieses moviendo un puntero.";
+  instruction_icon.src = "img/quiet.svg";
+  setTimeout(function(){
+    instruction_element.innerHTML = "Cierra el puño y muevelo como si estuvieses cambiando los parametros de la función.";
+    instruction_icon.src = "img/fist.svg";
+  }, training_time);
+  setTimeout(function(){
+    instruction_element.innerHTML = "Señala en todas las posiciones que quieras que se reconozcan.";
+    instruction_icon.src = "img/pointing.svg";
+  }, 2*training_time);
+  setTimeout(function(){
+    instruction_element.innerHTML = "Mantén la mano girada en todas las posiciones que quieras que se reconozcan.";
+    instruction_icon.src = "img/menu.svg";
+  }, 3*training_time);
 
   // Termina el muestreo y entrena a la red neuronal
   setTimeout(function(){
-    console.log("Termina el sampleo");
+    document.getElementById("trainingExplainTimer").innerHTML = "0s";
+    instruction_element.innerHTML = "Procesando la información...";
     clearInterval(output_timer);
     clearInterval(sample_timer);
     var trainer = new synaptic.Trainer(network);
     trainer.train(training_set);
     gesture_detector.set_neural_network(network);
-    console.log("Red entrenada");
+    instruction_element.innerHTML = "Ajuste terminado. ¡Muchas gracias!";
   }, 4*training_time);
+
+  setTimeout(function(){
+    document.getElementById("trainingExplain").style.visibility = "hidden";
+  }, 4*training_time + 1500);
 }
 
 
@@ -283,6 +329,9 @@ function main() {
       train_neural_network(detector);
     } else if (key == 'd') {
         download("network.json", "gesture_network=" + JSON.stringify(detector.neural_network) + ";");
+    } else if (key == "ArrowUp") {
+      a += 1;
+      plot(a, b);
     } else {
       if (!menu) {
         show_menu();

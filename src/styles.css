@@ -19,19 +19,30 @@ body {
 }
 
 
+.axis {
+  font-size: 14pt;
+}
+
+
+.top-right-legend {
+  visibility: hidden;
+}
+
+
 #explain{
   height: 33%;
   width: 100%;
   max-width: 1000pt;
-  margin: auto;
-  margin-top: 30pt;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 
 #functionExpressionContainer{
-  height: 20%;
+  height: 30%;
   width: 100%;
   text-align: center;
+  box-sizing: border-box;
 }
 
 #functionExpression{
@@ -40,20 +51,22 @@ body {
   line-height: normal;
   font-family: 'Crimson Text', serif;
   font-size: 25pt;
+  padding-top: 10pt;
 }
 
 #paramsExplain{
-  height: 80%;
+  height: 70%;
   width: 100%;
-  padding-top: 60pt;
   position: relative;
 }
 
 .paramExplain{
   width: 50%;
-  height: 60%;
+  height: 100%;
   display: inline-block;
   box-sizing: border-box;
+  vertical-align: top;
+  padding-top: 60pt;
   padding-left: 30pt;
   padding-right: 30pt;
   font-size: 16pt;
@@ -69,7 +82,7 @@ body {
   top: 0;
   right: 0;
   width: 100%;
-  height: 85%;
+  height: 100%;
   background-color: #ffffff;
   visibility: hidden;
 }
@@ -87,7 +100,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: red;
+  padding: 20pt;
+  box-sizing: border-box;
 }
 
 #trainingExplainTimer{
@@ -96,17 +110,19 @@ body {
   display: flex;
   justify-content: center;
   align-items: top;
-  background-color: orange;
   font-size: 30pt;
+  box-sizing: border-box;
 }
 
 #trainingExplainText{
-  display: inline-block;
-  vertical-align: middle;
   width: 64%;
+  height: 100%;
+  padding-top: 60pt;
+  padding-right: 40pt;
+  vertical-align: top;
+  display: inline-block;
   box-sizing: border-box;
-  text-align: center;
-  background-color: olive;
+  text-align: left;
   font-size: 20pt;
 }
 
