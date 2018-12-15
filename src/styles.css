@@ -18,6 +18,10 @@ body {
   margin: auto;
 }
 
+.axis {
+  font-size: 14pt;
+}
+
 
 #explain{
   height: 33%;
