@@ -214,7 +214,7 @@ function button8(){
 
 
 function button9(){
-  idioma = cambiarIdioma(idioma);
+  idioma = cambiarIdioma(idioma, current_function);
 }
 
 
