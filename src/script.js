@@ -185,6 +185,7 @@ function hide_menu() {
 
 
 function train_neural_network(gesture_detector) {
+  document.getElementById("trainingExplain").style.visibility = "visible";
   if (localStorage.gesture_network) {
     var network = synaptic.Network.fromJSON(localStorage.gesture_network);
   } else {
@@ -223,24 +224,42 @@ function train_neural_network(gesture_detector) {
             output: expected_output
           });
         }
+        document.getElementById("trainingExplainTimer").innerHTML = Math.ceil((training_time - elapsed_time%training_time)/1000) + "s";
   }, sample_time);
 
   // Da instrucciones
-  console.log("Pon la mano extendida");
-  setTimeout(function(){console.log("Cierra el puño");}, training_time);
-  setTimeout(function(){console.log("Señala");}, 2*training_time);
-  setTimeout(function(){console.log("Gira la mano");}, 3*training_time);
+  var instruction_element = document.getElementById("trainingExplainText");
+  var instruction_icon = document.getElementById("trainingGesture");
+  instruction_element.innerHTML = "Pon la mano extendida y muevela como si estuvieses moviendo un puntero.";
+  instruction_icon.src = "img/quiet.svg";
+  setTimeout(function(){
+    instruction_element.innerHTML = "Cierra el puño y muevelo como si estuvieses cambiando los parametros de la función.";
+    instruction_icon.src = "img/fist.svg";
+  }, training_time);
+  setTimeout(function(){
+    instruction_element.innerHTML = "Señala en todas las posiciones que quieras que se reconozcan.";
+    instruction_icon.src = "img/pointing.svg";
+  }, 2*training_time);
+  setTimeout(function(){
+    instruction_element.innerHTML = "Mantén la mano girada en todas las posiciones que quieras que se reconozcan.";
+    instruction_icon.src = "img/menu.svg";
+  }, 3*training_time);
 
   // Termina el muestreo y entrena a la red neuronal
   setTimeout(function(){
-    console.log("Termina el sampleo");
+    document.getElementById("trainingExplainTimer").innerHTML = "0s";
+    instruction_element.innerHTML = "Procesando la información...";
     clearInterval(output_timer);
     clearInterval(sample_timer);
     var trainer = new synaptic.Trainer(network);
     trainer.train(training_set);
     gesture_detector.set_neural_network(network);
-    console.log("Red entrenada");
+    instruction_element.innerHTML = "Ajuste terminado. ¡Muchas gracias!";
   }, 4*training_time);
+
+  setTimeout(function(){
+    document.getElementById("trainingExplain").style.visibility = "hidden";
+  }, 4*training_time + 1500);
 }
 
 
