@@ -15,6 +15,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/synaptic/1.1.4/synaptic.js"></script>
   <script type="text/javascript" src="network.json"></script>
   <script src="gesture-detector.js"></script>
+  <script src="traduccion.js"></script>
   <script src="script.js"></script>
   <!--
   <style type="text/css">#connect-leap{zoom: 0.4;}</style>
@@ -31,7 +32,7 @@
       <div id="paramsExplain">
         <div id="paramAExplain" class="paramExplain">
           <span class="paramExplainText" id="paramAExplainText">
-            <span class="a">a</span> controla la <span class="a">intensidad</span> de la onda. Prueba a cambiarla con
+            <span class="a">a</span> controla la <span class="a">intensidad</span> de la onda
           </span>
           <!--div class="paramGesto">
             <img class="gesto" src="img/fist.svg" alt="Gesto de control de a">
@@ -39,7 +40,7 @@
         </div><!--
         --><div id="paramBExplain" class="paramExplain">
           <span class="paramExplainText" id="paramBExplainText">
-            <span class="b">b</span> controla la <span class="b">amplitud</span> de la onda. Prueba a cambiarla con
+            <span class="b">b</span> controla la <span class="b">amplitud</span> de la onda
           </span>
           <!--div class="paramGesto">
             <img class="gesto" src="img/fist.svg" alt="Gesto de control de b">
@@ -65,22 +66,31 @@
   <div id="menu">
     <div id="menuBox">
       <div class="menuButton" id="menuButton1" onclick="button1()">
-        <span class="menuButtonText">Función 2</span>
+        <span class="menuButtonText" id="button1text">Función 2</span>
       </div><!--
       --><div class="menuButton" id="menuButton2" onclick="button2()">
-        <span class="menuButtonText">Función 3</span>
+        <span class="menuButtonText" id="button2text">Función 3</span>
       </div><!--
       --><div class="menuButton" id="menuButton3" onclick="button3()">
-        <span class="menuButtonText">Reconocimiento automático</span>
+        <span class="menuButtonText" id="button3text">Reestablecer parámetros de la función actual</span>
       </div><!--
-      --><div class="menuButton" id="menuButton4">
-        <span class="menuButtonText">Botón 4</span>
+      --><div class="menuButton" id="menuButton4" onclick="button4()">
+        <span class="menuButtonText" id="button4text">Activar gestos automáticos</span>
       </div><!--
-      --><div class="menuButton" id="menuButton5">
-        <span class="menuButtonText">Botón 5</span>
+      --><div class="menuButton" id="menuButton5" onclick="button5()">
+        <span class="menuButtonText" id="button5text">Ajustar gestos automáticos</span>
       </div><!--
-      --><div class="menuButton" id="menuButton6">
-        <span class="menuButtonText">Botón 6</span>
+      --><div class="menuButton" id="menuButton6" onclick="button6()">
+        <span class="menuButtonText" id="button6text">Ayuda</span>
+      </div><!--
+      --><div class="menuButton" id="menuButton7" onclick="button7()">
+        <span class="menuButtonText" id="button7text">Guardar gestos automáticos</span>
+      </div><!--
+      --><div class="menuButton" id="menuButton8" onclick="button8()">
+        <span class="menuButtonText" id="button8text">Reestablecer gestos automáticos por defecto</span>
+      </div><!--
+      --><div class="menuButton" id="menuButton9" onclick="button9()">
+        <span class="menuButtonText" id="button9text">Salir</span>
       </div>
     </div>
 
