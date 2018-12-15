@@ -18,8 +18,14 @@ body {
   margin: auto;
 }
 
+
 .axis {
   font-size: 14pt;
+}
+
+
+.top-right-legend {
+  visibility: hidden;
 }
 
 

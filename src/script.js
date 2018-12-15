@@ -77,34 +77,61 @@ function change_function(fun_num, change_expression=true) {
       v_b[i].innerHTML = Math.round(b*100)/100;
     }
   }
-  plot(a, b);
+  plot(a, b, false);
 }
 
 
-function plot(a_1, b_1) {
+function plot(a_1, b_1, redraw = true) {
   var target = document.getElementById('plot');
   var f = functions[current_function];
   var fn_str = f.expression.replace(/variable_a/g, a_1);
   fn_str = fn_str.replace(/variable_b/g, b_1);
-  //console.log(fn_str);
-  functionPlot({
-    target: target,
-    width: target.clientWidth,
-    height: target.clientHeight,
-    data: [{
-      fn: fn_str
-    }]
-  }).programmaticZoom(f.dom_x, f.dom_y);
 
-  document.body.onresize = function() {
-    functionPlot({
+  if (redraw && plot.plot != null) {
+    plot.plot = functionPlot({
       target: target,
       width: target.clientWidth,
       height: target.clientHeight,
+      xAxis: {
+        domain: f.dom_x
+      },
+      yAxis: {
+        domain: f.dom_y
+      },
       data: [{
         fn: fn_str
       }]
-    })
+    });
+  } else {
+    //console.log(fn_str);
+    plot.plot = functionPlot({
+      target: target,
+      width: target.clientWidth,
+      height: target.clientHeight,
+      xDomain: f.dom_x,
+      yDomain: f.dom_y,
+      data: [{
+        fn: fn_str
+      }]
+    });
+    plot.plot.programmaticZoom(f.dom_x, f.dom_y);
+
+    document.body.onresize = () => {
+      plot.plot = functionPlot({
+        target: target,
+        width: target.clientWidth,
+        height: target.clientHeight,
+        xAxis: {
+          domain: f.dom_x
+        },
+        yAxis: {
+          domain: f.dom_y
+        },
+        data: [{
+          fn: fn_str
+        }]
+      });
+    }
   }
 }
 
@@ -241,6 +268,9 @@ function main() {
       train_neural_network(detector);
     } else if (key == 'd') {
         download("network.json", "gesture_network=" + JSON.stringify(detector.neural_network) + ";");
+    } else if (key == "ArrowUp") {
+      a += 1;
+      plot(a, b);
     } else {
       if (!menu) {
         show_menu();
