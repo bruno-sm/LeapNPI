@@ -214,7 +214,7 @@ function button8(){
 
 
 function button9(){
-  idioma = cambiarIdioma(idioma, current_function);
+  idioma = cambiarIdioma(idioma, current_function, detector.mode);
 }
 
 
@@ -272,31 +272,31 @@ function train_neural_network(gesture_detector) {
   // Da instrucciones
   var instruction_element = document.getElementById("trainingExplainText");
   var instruction_icon = document.getElementById("trainingGesture");
-  instruction_element.innerHTML = "Pon la mano extendida y muevela como si estuvieses moviendo un puntero.";
+  instruction_element.innerHTML = strings_idiomas[idioma].pointer_tr;
   instruction_icon.src = "img/quiet.svg";
   setTimeout(function(){
-    instruction_element.innerHTML = "Cierra el puño y muevelo como si estuvieses cambiando los parametros de la función.";
+    instruction_element.innerHTML = strings_idiomas[idioma].fist_tr;
     instruction_icon.src = "img/fist.svg";
   }, training_time);
   setTimeout(function(){
-    instruction_element.innerHTML = "Señala en todas las posiciones que quieras que se reconozcan.";
+    instruction_element.innerHTML = strings_idiomas[idioma].point_tr;
     instruction_icon.src = "img/pointing.svg";
   }, 2*training_time);
   setTimeout(function(){
-    instruction_element.innerHTML = "Mantén la mano girada en todas las posiciones que quieras que se reconozcan.";
+    instruction_element.innerHTML = strings_idiomas[idioma].flip_tr;
     instruction_icon.src = "img/menu.svg";
   }, 3*training_time);
 
   // Termina el muestreo y entrena a la red neuronal
   setTimeout(function(){
     document.getElementById("trainingExplainTimer").innerHTML = "0s";
-    instruction_element.innerHTML = "Procesando la información...";
+    instruction_element.innerHTML = strings_idiomas[idioma].processing;
     clearInterval(output_timer);
     clearInterval(sample_timer);
     var trainer = new synaptic.Trainer(network);
     trainer.train(training_set);
     gesture_detector.set_neural_network(network);
-    instruction_element.innerHTML = "Ajuste terminado. ¡Muchas gracias!";
+    instruction_element.innerHTML = strings_idiomas[idioma].end_tr;
   }, 4*training_time);
 
   setTimeout(function(){
