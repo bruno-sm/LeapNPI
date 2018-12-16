@@ -288,10 +288,9 @@ body {
   top: 0;
   overflow: hidden;
   position: fixed;
-  visibility: hidden;
   background-color: #ffffff;
   padding-left: 30%;
-  padding-right: 30%;
+  visibility: hidden;
 }
 
 .helpItem {
@@ -317,4 +316,5 @@ body {
   vertical-align: top;
   box-sizing: border-box;
   font-size: 20pt;
+  padding-right: 25%;
 }
