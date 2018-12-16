@@ -201,7 +201,7 @@ function plot(a_1, b_1, redraw = true) {
 function show_menu() {
   // Solo tenemos que hacer visibles los elementos del menú y actualizar la variable
   // menu a true
-  document.getElementById('app').style.filter = 'blur(5px)';
+  document.getElementById('app').style.filter = 'blur(6px)';
   document.getElementById('menu').style.visibility = 'visible';
   document.getElementById('cursor').style.visibility = 'visible';
   var buttons = document.getElementsByClassName("menuButton");
@@ -275,10 +275,10 @@ function button3(){
 // Botón 4: Activa o desactiva los gestos automáticos, según estén desactivos o no
 function button4(){
   if (detector.mode == "manual") {
-    document.getElementById('menuButton4').innerHTML = strings_idiomas[idioma].rec_manual;
+    document.getElementById('button4text').innerHTML = strings_idiomas[idioma].rec_manual;
     detector.automatic();
   } else {
-    document.getElementById('menuButton4').innerHTML = strings_idiomas[idioma].rec_aut;
+    document.getElementById('button4text').innerHTML = strings_idiomas[idioma].rec_aut;
     detector.manual();
   }
 }
@@ -317,6 +317,7 @@ function button9(){
 
 
 function train_neural_network(gesture_detector) {
+  gesture_detector.activate(false);
   document.getElementById("trainingExplain").style.visibility = "visible";
   if (localStorage.gesture_network) {
     var network = synaptic.Network.fromJSON(localStorage.gesture_network);
@@ -387,6 +388,7 @@ function train_neural_network(gesture_detector) {
     trainer.train(training_set);
     gesture_detector.set_neural_network(network);
     instruction_element.innerHTML = strings_idiomas[idioma].end_tr;
+    gesture_detector.activate();
   }, 4*training_time);
 
   setTimeout(function(){
