@@ -144,7 +144,7 @@ function plot(a_1, b_1, redraw = true) {
 
 
 function show_menu() {
-  document.getElementById('app').style.filter = 'blur(5px)';
+  document.getElementById('app').style.filter = 'blur(6px)';
   document.getElementById('menu').style.visibility = 'visible';
   document.getElementById('cursor').style.visibility = 'visible';
   var buttons = document.getElementsByClassName("menuButton");
@@ -209,10 +209,10 @@ function button3(){
 
 function button4(){
   if (detector.mode == "manual") {
-    document.getElementById('menuButton4').innerHTML = strings_idiomas[idioma].rec_manual;
+    document.getElementById('button4text').innerHTML = strings_idiomas[idioma].rec_manual;
     detector.automatic();
   } else {
-    document.getElementById('menuButton4').innerHTML = strings_idiomas[idioma].rec_aut;
+    document.getElementById('button4text').innerHTML = strings_idiomas[idioma].rec_aut;
     detector.manual();
   }
 }
