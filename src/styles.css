@@ -51,7 +51,7 @@ body {
   vertical-align: middle;
   line-height: normal;
   font-family: 'Crimson Text', serif;
-  font-size: 25pt;
+  font-size: 30pt;
   padding-top: 10pt;
 }
 
@@ -68,9 +68,9 @@ body {
   box-sizing: border-box;
   vertical-align: top;
   padding-top: 60pt;
-  padding-left: 30pt;
-  padding-right: 30pt;
-  font-size: 16pt;
+  padding-left: 27pt;
+  padding-right: 27pt;
+  font-size: 20pt;
   text-align: center;
 }
 
@@ -138,26 +138,26 @@ body {
 .a{
   color: #08587B;
   font-family: 'Crimson Text', serif;
-  font-size: 24pt;
+  font-size: 29pt;
 }
 
 .b{
   color: #e85f5c;
   font-family: 'Crimson Text', serif;
-  font-size: 24pt;
+  font-size: 29pt;
 }
 
 .a_format{
   color: #08587B;
   font-family: 'Crimson Text', serif;
-  font-size: 24pt;
+  font-size: 30pt;
 }
 
 
 .b_format{
   color: #e85f5c;
   font-family: 'Crimson Text', serif;
-  font-size: 24pt;
+  font-size: 30pt;
 }
 
 .sup {
