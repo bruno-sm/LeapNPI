@@ -9,6 +9,10 @@ class GestureDetector {
 
   // Constructor de la clase, solo necesita el umbral waiting_thres
   constructor(waiting_thres) {
+    // Determina si el detector está activo y en consecuencia ejecuta las acciones
+    // correspondientes a cada gesto
+    this.active =  true;
+
     // Este umbral de tiempo es el mínimo de frames que deben de pasar para
     // dejar de detectar un gesto. Si es muy alto, el usuario verá que los gestos
     // no se detectan de forma fluida, y si es muy bajo el ruido a la hora de
@@ -138,6 +142,11 @@ class GestureDetector {
     this.neural_network = n;
   }
 
+  // Activa o desactiva el detector
+  activate(active=true) {
+    this.active = active;
+  }
+
   // Activar detección manual de gestos
   manual() {
     this.mode = "manual";
@@ -156,6 +165,9 @@ class GestureDetector {
     // de los dedos y palma
     Leap.loop({background: true}, {
       hand: (hand) => {
+        // Si el detector no está activo no hace nada
+        if (!this.active) return;
+
         // Actualiza la posicion
         var pos_x = (hand.screenPosition()[0])*1.5-500;
         var pos_y = (hand.screenPosition()[1]+700)*1.5-500;

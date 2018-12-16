@@ -246,6 +246,7 @@ function button9(){
 
 
 function train_neural_network(gesture_detector) {
+  gesture_detector.activate(false);
   document.getElementById("trainingExplain").style.visibility = "visible";
   if (localStorage.gesture_network) {
     var network = synaptic.Network.fromJSON(localStorage.gesture_network);
@@ -316,6 +317,7 @@ function train_neural_network(gesture_detector) {
     trainer.train(training_set);
     gesture_detector.set_neural_network(network);
     instruction_element.innerHTML = strings_idiomas[idioma].end_tr;
+    gesture_detector.activate();
   }, 4*training_time);
 
   setTimeout(function(){
