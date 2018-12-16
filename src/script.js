@@ -149,7 +149,28 @@ function show_menu() {
   document.getElementById('cursor').style.visibility = 'visible';
   var buttons = document.getElementsByClassName("menuButton");
   menu = true;
+  hide_help();
 }
+
+
+function hide_menu() {
+  document.getElementById('app').style.filter = 'none';
+  document.getElementById('menu').style.visibility = 'hidden';
+  document.getElementById('cursor').style.visibility = 'hidden';
+  menu = false;
+}
+
+
+function show_help() {
+  document.getElementById("help").style.visibility = "visible";
+  menu = false;
+}
+
+
+function hide_help() {
+  document.getElementById("help").style.visibility = "hidden";
+}
+
 
 function button1(){
   if(current_function == 0){
@@ -197,32 +218,30 @@ function button4(){
 }
 
 function button5(){
-  //TODO Activar entrenamiento
+  // Comienza el entrenamiento de la red neuronal
+  train_neural_network(detector);
+  hide_menu();
 }
 
 function button6(){
-  // TODO Mostrar ventana de ayuda
+  // Muestra la ayuda
+  show_help();
 }
 
 function button7(){
-  // TODO Guardar entrenamiento
+  // Guarda la red neuronal actual
+  localStorage.gesture_network = detector.neural_network;
 }
 
 function button8(){
-  // TODO Reestablecer los gestos por defecto
+  // Restablece la red neuronal por defecto
+  localStorage.removeItem("gesture_network");
+  detector.set_neural_network(synaptic.Network.fromJSON(gesture_network));
 }
 
 
 function button9(){
   idioma = cambiarIdioma(idioma, current_function, detector.mode);
-}
-
-
-function hide_menu() {
-  document.getElementById('app').style.filter = 'none';
-  document.getElementById('menu').style.visibility = 'hidden';
-  document.getElementById('cursor').style.visibility = 'hidden';
-  menu = false;
 }
 
 
