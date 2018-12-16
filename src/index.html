@@ -17,12 +17,11 @@
   <script src="gesture-detector.js"></script>
   <script src="traduccion.js"></script>
   <script src="script.js"></script>
-  <!--
-  <style type="text/css">#connect-leap{zoom: 0.4;}</style>
-  -->
 </head>
 <body>
+  <!-- Elemento principal donde aparecen las gráficas y las explicaciones -->
   <main role="main" id="app">
+    <!-- Indicadores de puño cerrado -->
     <div id="gestureIndicatorsCont">
       <div id="fistVerticalInd" class="indicator">
         <img class="gesto" src="img/fist-vertical.svg" alt="Gesto para mover la gráfica">
@@ -31,29 +30,32 @@
         <img class="gesto" src="img/fist-horizontal.svg" alt="Gesto para mover la gráfica">
       </div>
     </div>
+
+    <!-- Gráfica -->
     <div id="plot">
     </div>
+
+    <!-- Expresión de la función y explicación de los parámetros -->
     <section id="explain">
+      <!-- Expresión de la función -->
       <div id="functionExpressionContainer">
         <span id="functionExpression">f(x) = <span id="a" class="a">a</span> sin(<span id="b" class="b">b</span>x)</span>
       </div>
+
+      <!-- Explicación de los parámetros -->
       <div id="paramsExplain">
         <div id="paramAExplain" class="paramExplain">
           <span class="paramExplainText" id="paramAExplainText">
             <span class="a">a</span> controla la <span class="a">intensidad</span> de la onda
           </span>
-          <!--div class="paramGesto">
-            <img class="gesto" src="img/fist.svg" alt="Gesto de control de a">
-          </div-->
         </div><!--
         --><div id="paramBExplain" class="paramExplain">
           <span class="paramExplainText" id="paramBExplainText">
             <span class="b">b</span> controla la <span class="b">amplitud</span> de la onda
           </span>
-          <!--div class="paramGesto">
-            <img class="gesto" src="img/fist.svg" alt="Gesto de control de b">
-          </div-->
         </div>
+
+        <!-- Explicación del entrenamiento -->
         <div id="trainingExplain">
           <div id="trainingExplainGestureAndTimer">
             <div id="trainingExplainGesture">
@@ -71,8 +73,10 @@
     </section>
   </main>
 
+  <!-- Menú -->
   <div id="menu">
     <div id="menuBox">
+      <!-- Botones del menú -->
       <div class="menuButton" id="menuButton1" onclick="button1()">
         <span class="menuButtonText" id="button1text">Función 2</span>
       </div><!--
@@ -103,11 +107,13 @@
     </div>
   </div>
 
+  <!-- Cursor del menú -->
   <div id="cursor">
     <div id="cursorCircle">
     </div>
   </div>
 
+  <!-- Pantalla de ayuda -->
   <div id="help">
     <div class="helpItem">
       <img class="helpIcon" src="img/fist-vertical.svg" alt="Mover el puño verticalmente"><!--
