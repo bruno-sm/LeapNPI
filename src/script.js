@@ -316,20 +316,28 @@ function button9(){
 }
 
 
+// Función que entrena la red neuronal y pone las instrucciones para hacerlo por pantalla
 function train_neural_network(gesture_detector) {
+  // Desactiva el detector de gestos para que no se realicen acciones
   gesture_detector.activate(false);
+
+  // Muestra las instucciones
   document.getElementById("trainingExplain").style.visibility = "visible";
+
+  // Obtiene la red neuronal guardada
   if (localStorage.gesture_network) {
     var network = synaptic.Network.fromJSON(localStorage.gesture_network);
   } else {
+    // Si no hay ninguna red guardada obtiene la de por defecto
     var network = synaptic.Network.fromJSON(gesture_network);
   }
-  var elapsed_time = 0;
-  var training_time = 20000;
-  var training_set = [];
 
-  // Cambia el resultado esperado cada 20 segundos
+  var elapsed_time = 0; // Tiempo de entrenamiento transcurrido
+  var training_time = 20000; // Tiempo de entrenamiento por gesto
+  var training_set = []; // Conjunto de entrenamiento a llenar
+
   var expected_output = [1, 0, 0, 0];
+  // Cambia el resultado esperado cada 20 segundos, cada vector representa un gesto
   output_timer = setInterval(function(){
     elapsed_time += 500;
     if (elapsed_time < training_time) {
@@ -343,36 +351,43 @@ function train_neural_network(gesture_detector) {
     }
   }, 500);
 
-  // Aumenta el conjunto de entrenamiento cada 0.1 segundos
-  var sample_time = 100;
+
+  var sample_time = 100; // Intervalo en el que se cogen las muestras
   var wait_time = 3000.0; // Tiempo de espera para que el usuario cambie el gesto
+  // Aumenta el conjunto de entrenamiento cada 0.1 segundos
   sample_timer = setInterval(function(){
     if ((elapsed_time > (2/3 * wait_time)) &&
         (elapsed_time < training_time - (1/3 * wait_time) || elapsed_time > training_time + (2/3 * wait_time)) &&
         (elapsed_time < 2*training_time - (1/3 * wait_time) || elapsed_time > 2*training_time + (2/3 * wait_time)) &&
         (elapsed_time < 3*training_time - (1/3 * wait_time) || elapsed_time > 3*training_time + (2/3 * wait_time))) {
           var input = gesture_detector.last_input;
+          // El conjunto de entrenamiento es un vector de pares (datos de entrada, salida esperada)
           training_set.push({
             input: input.slice(),
             output: expected_output
           });
         }
+        // Muestra el tiempo restante por pantalla
         document.getElementById("trainingExplainTimer").innerHTML = Math.ceil((training_time - elapsed_time%training_time)/1000) + "s";
   }, sample_time);
 
-  // Da instrucciones
+  // Muestra las instucciones por pantalla
   var instruction_element = document.getElementById("trainingExplainText");
   var instruction_icon = document.getElementById("trainingGesture");
+  // Primero muestra la instrucción de extender la mano
   instruction_element.innerHTML = strings_idiomas[idioma].pointer_tr;
   instruction_icon.src = "img/quiet.svg";
+  // 20 segundos después muestra la instrucción de mover el puño
   setTimeout(function(){
     instruction_element.innerHTML = strings_idiomas[idioma].fist_tr;
     instruction_icon.src = "img/fist.svg";
   }, training_time);
+  // 20 segundos después muestra la instrucción de apuntar con el dedo
   setTimeout(function(){
     instruction_element.innerHTML = strings_idiomas[idioma].point_tr;
     instruction_icon.src = "img/pointing.svg";
   }, 2*training_time);
+  // 20 segundos después muestra la instrucción de mover girar la mano
   setTimeout(function(){
     instruction_element.innerHTML = strings_idiomas[idioma].flip_tr;
     instruction_icon.src = "img/menu.svg";
@@ -384,13 +399,18 @@ function train_neural_network(gesture_detector) {
     instruction_element.innerHTML = strings_idiomas[idioma].processing;
     clearInterval(output_timer);
     clearInterval(sample_timer);
+    // Crea un nuevo entrenador
     var trainer = new synaptic.Trainer(network);
+    // Entrena la red con los datos obtenidos
     trainer.train(training_set);
+    // Establece la red entrenada como la actual
     gesture_detector.set_neural_network(network);
     instruction_element.innerHTML = strings_idiomas[idioma].end_tr;
+    // Vuelve a activar el detector
     gesture_detector.activate();
   }, 4*training_time);
 
+  // Esconde las instrucciones del entrenamiento
   setTimeout(function(){
     document.getElementById("trainingExplain").style.visibility = "hidden";
   }, 4*training_time + 1500);
