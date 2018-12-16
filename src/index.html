@@ -23,6 +23,14 @@
 </head>
 <body>
   <main role="main" id="app">
+    <div id="gestureIndicatorsCont">
+      <div id="fistVerticalInd" class="indicator">
+        <img class="gesto" src="img/fist-vertical.svg" alt="Gesto para mover la gráfica">
+      </div><!--
+      --><div id="fistHorizontalInd" class="indicator">
+        <img class="gesto" src="img/fist-horizontal.svg" alt="Gesto para mover la gráfica">
+      </div>
+    </div>
     <div id="plot">
     </div>
     <section id="explain">
@@ -93,25 +101,53 @@
         <span class="menuButtonText" id="button9text">Cambiar idioma al inglés</span>
       </div>
     </div>
-
-    <div id="pointingCont">
-      <img class="gesto" src="img/pointing.svg" alt="Gesto para seleccionar">
-    </div>
   </div>
-
-  <div id="gestureIndicatorsCont">
-    <div id="fistVerticalInd" class="indicator">
-      <img class="gesto" src="img/fist.svg" alt="Gesto para mover la gráfica">
-    </div><!--
-    --><div id="fistHorizontalInd" class="indicator">
-      <img class="gesto" src="img/fist.svg" alt="Gesto para mover la gráfica">
-    </div>
-    </div>
-  </div>
-</div>
 
   <div id="cursor">
     <div id="cursorCircle">
+    </div>
+  </div>
+
+  <div id="help">
+    <div class="helpItem">
+      <img class="helpIcon" src="img/fist-vertical.svg" alt="Mover el puño verticalmente"><!--
+      --><div class="helpText" id="verticalFistHelp">
+        <span style="width: 100%; height: 100%; display: flex; align-items: center;">
+          Mueve el puño arriba y abajo para cambiar el primer parámetro de la función
+        </span>
+      </div>
+    </div>
+    <div class="helpItem">
+      <img class="helpIcon" src="img/fist-horizontal.svg" alt="Mover el puño horizontalmente"><!--
+      --><div class="helpText" id="horizontalFistHelp">
+        <span style="width: 100%; height: 100%; display: flex; align-items: center;">
+          Mueve el puño a derecha e izquierda para cambiar el primer parámetro de la función
+        </span>
+      </div>
+    </div>
+    <div class="helpItem">
+      <img class="helpIcon" src="img/menu.svg" alt="Girar la mano"><!--
+      --><div class="helpText" id="turnHandHelp">
+        <span style="width: 100%; height: 100%; display: flex; align-items: center;">
+          Gira la palma de la mano para activar el menú (y para salir de esta ayuda)
+        </span>
+      </div>
+    </div>
+    <div class="helpItem">
+      <img class="helpIcon" src="img/quiet.svg" alt="Extender la mano"><!--
+      --><div class="helpText" id="quietHelp">
+        <span style="width: 100%; height: 100%; display: flex; align-items: center;">
+          Extiende la mano y muevela para mover el puntero del menú
+        </span>
+      </div>
+    </div>
+    <div class="helpItem">
+      <img class="helpIcon" src="img/pointing.svg" alt="Apuntar con el dedo"><!--
+      --><div class="helpText" id="pointHelp">
+          <span style="width: 100%; height: 100%; display: flex; align-items: center;">
+            Señala con el dedo para pulsar un botón del menú
+          </span>
+        </div>
     </div>
   </div>
 </body>
