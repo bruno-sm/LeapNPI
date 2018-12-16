@@ -1,5 +1,32 @@
+/* Main script del programa. Aquí se inicializan todos los gestores de eventos,
+se crea el GestureDetector para detectar movimientos de manos, se guarda la información
+correspondiente a la función que se está visualizando y se gestiona toda la
+configuración del usuario, como los parámetros de las funciones o los gestos
+automáticos.
+*/
+// idioma guarda el idioma actual. Puede ser 'esp' para español o 'eng' para inglés
 var idioma = "esp";
+
+// functions guarda la configuración y parámetros actuales de todas las funciones
+// que se pueden visualizar, en este caso tres.
 var functions = [
+  /* Cada función tiene:
+  ** expression -> La fórmula de la función dependiente de dos parámetros
+  ** html -> El mensaje html que se muestra de la fórmula anterior
+  ** explain_a -> Un pequeño mensaje que muestra una breve explicación del primer parámetro
+  ** explain_b -> Un pequeño mensaje que muestra una breve explicación del segundo parámetro
+  ** dom_x -> El rango en x de la visualización de la función
+  ** dom_y -> El rango en y de la visualización de la función
+  ** rango_a -> El rango en el que se puede mover el primer parámetro
+  ** rango_b -> El rango en el que se puede mover el segundo parámetro
+  ** a -> El valor actual de a. Se utiliza para que cuando se refresque el plot
+  **      de una función, siga teniendo el valor que tenía cuando la dejamos de ver
+  ** b -> El valor actual de b. Su uso es análogo al de a.
+  ** ini_a -> El valor inicial del primer parámetro
+  ** ini_b -> El valor inicial del segundo parámetro
+  ** seen -> Un booleano que determina si hemos visto esta función con anterioridad o no
+  **         Se utiliza para configurar mejor los mensajes y no mostrar información repetida
+  */
   {
     expression: 'variable_a*sin(variable_b*x)',
     html: 'f(x)=<span class="a_format">a</span>sin(<span class="b_format">b</span>x)',
@@ -49,51 +76,78 @@ var functions = [
   }
 ];
 
+// Inicializamos variables globales
+
+// rango_a y rango_b determinan el rango de la función actual
 var rango_a;
 var rango_b;
+
+// Guarda el índice de la función actual
 var current_function = 0;
 
+// Los valores actuales de los parámetros
 var a = 2;
 var b = 3;
 
+// Los valores actuales de los dominios de la visualización
 var dom_x = [-6, 6];
 var dom_y = [-6, 6];
 
+// Creamos el GestureDetector con un umbral de frames de espera de 4 frames
 var detector = new GestureDetector(4);
+
+// Booleano que nos dice si el menú se está mostrando o no. Al principio no
 var menu = false;
 
+// Función que cambia la función actual. También sirve para revisualizar una
+// función cuando se cambian sus parámetros. fun_num es la función a visualizar
+// y change_expression nos dice si su fórmula o parámetros han cambiado
 function change_function(fun_num, change_expression=true) {
+  // Actualizamos la función actual y remarcamos que ya la hemos visto
   current_function = fun_num;
   var f = functions[current_function];
   f.seen = true;
+
+  // Actualizamos el mensaje de la función y las explicaciones de los parámetros
   document.getElementById("functionExpression").innerHTML = f.html;
   document.getElementById("paramAExplainText").innerHTML = f.explain_a;
   document.getElementById("paramBExplainText").innerHTML = f.explain_b;
+
+  // Actualizamos los parámetros y los rangos en los que se mueven
   rango_a = f.rango_a;
   rango_b = f.rango_b;
   a = f.a;
   b = f.b;
+
+  // Si la expresión ha cambiado, actualizamos sus parámetros
   if (change_expression){
+    // Recuperamos el valor actual de a y lo actualizamos en el html
     var v_a = document.getElementsByClassName('a_format');
     var i;
     for(i = 0; i < v_a.length; i++){
       v_a[i].innerHTML = Math.round(a*100)/100;
     }
+    // Recuperamos el valor actual de b y lo actualizamos en el html
     var v_b = document.getElementsByClassName('b_format');
     for(i = 0; i < v_b.length; i++){
       v_b[i].innerHTML = Math.round(b*100)/100;
     }
   }
+  // Hacemos un nuevo plot de la función
   plot(a, b, false);
 }
 
-
+// plot hace una visualización de la función actual con los parámetros a_1, b_1
 function plot(a_1, b_1, redraw = true) {
+  // Cogemos el gráfico en html, la función actual y su fórmula
+  // Sustituimos el string "variable_a/b" por el valor correspondiente del parámetro
   var target = document.getElementById('plot');
   var f = functions[current_function];
   var fn_str = f.expression.replace(/variable_a/g, a_1);
   fn_str = fn_str.replace(/variable_b/g, b_1);
 
+  // Miramos si hay que actualizar los dominios de la función o no, y hacemos un Plot
+  // con los dominios actuales
   if (redraw && plot.plot != null) {
     plot.plot = functionPlot({
       target: target,
@@ -123,6 +177,7 @@ function plot(a_1, b_1, redraw = true) {
     });
     plot.plot.programmaticZoom(f.dom_x, f.dom_y);
 
+    // Hacemos un gestor del evento de cambio de tamaño de la ventana
     document.body.onresize = () => {
       plot.plot = functionPlot({
         target: target,
@@ -142,8 +197,10 @@ function plot(a_1, b_1, redraw = true) {
   }
 }
 
-
+// Muestra el menú
 function show_menu() {
+  // Solo tenemos que hacer visibles los elementos del menú y actualizar la variable
+  // menu a true
   document.getElementById('app').style.filter = 'blur(6px)';
   document.getElementById('menu').style.visibility = 'visible';
   document.getElementById('cursor').style.visibility = 'visible';
@@ -152,26 +209,30 @@ function show_menu() {
   hide_help();
 }
 
-
+// Oculta el menú
 function hide_menu() {
+  // Ponemos invisibles los elementos y actualizamos la variable menu a false
   document.getElementById('app').style.filter = 'none';
   document.getElementById('menu').style.visibility = 'hidden';
   document.getElementById('cursor').style.visibility = 'hidden';
   menu = false;
 }
 
-
+// Muestra la ayuda y desactiva el menú
 function show_help() {
   document.getElementById("help").style.visibility = "visible";
   menu = false;
 }
 
-
+// Oculta la ayuda
 function hide_help() {
   document.getElementById("help").style.visibility = "hidden";
 }
 
+// Funciones de botones
 
+// Botón 1: Cambia la función a la primera que haya que no sea la que estamos visualizando
+// Si clicamos en él se oculta el menú y se cambia la función
 function button1(){
   if(current_function == 0){
     current_function = 1;
@@ -187,6 +248,9 @@ function button1(){
   change_function(current_function, functions[current_function].seen);
 }
 
+
+// Botón 2: Cambia la función a la segunda que haya que no sea la que estamos visualizando
+// Si clicamos en él se oculta el menú y se cambia la función
 function button2(){
   if(current_function == 2){
     current_function = 1;
@@ -202,11 +266,13 @@ function button2(){
   change_function(current_function, functions[current_function].seen);
 }
 
+// Botón 3: Reestablece los parámetros por defecto
 function button3(){
   functions[current_function].a = functions[current_function].ini_a;
   functions[current_function].b = functions[current_function].ini_b;
 }
 
+// Botón 4: Activa o desactiva los gestos automáticos, según estén desactivos o no
 function button4(){
   if (detector.mode == "manual") {
     document.getElementById('button4text').innerHTML = strings_idiomas[idioma].rec_manual;
@@ -217,30 +283,35 @@ function button4(){
   }
 }
 
+// Botón 5: Activa el entrenamiento de gestos automáticos
 function button5(){
   // Comienza el entrenamiento de la red neuronal
   train_neural_network(detector);
   hide_menu();
 }
 
+// Botón 6: Muestra la ayuda
 function button6(){
   // Muestra la ayuda
   show_help();
 }
 
+// Botón 7: Guarda los gestos automáticos actuales en la sesión del navegador
 function button7(){
   // Guarda la red neuronal actual
   localStorage.gesture_network = detector.neural_network;
 }
 
+// Botón 8: Reestablece los gestos automáticos por defecto
 function button8(){
   // Restablece la red neuronal por defecto
   localStorage.removeItem("gesture_network");
   detector.set_neural_network(synaptic.Network.fromJSON(gesture_network));
 }
 
-
+// Botón 9: Cambia el idioma a español o a inglés, según el que esté activo en ese momento
 function button9(){
+  // La función cambiarIdioma de traduccion.js es la que realiza el cambio
   idioma = cambiarIdioma(idioma, current_function, detector.mode);
 }
 
@@ -340,10 +411,13 @@ function download(filename, text) {
   document.body.removeChild(element);
 }
 
-
+// Main del script. Realiza un plot de la función e inicializa los gestores de eventos
 function main() {
+
+  // Realiza el primer plot para que se vea la función inicial
   change_function(current_function, false);
 
+  // Crea el gestor de eventos por si se pulsa una tecla
   document.addEventListener('keyup', function (event) {
     var key = event.key || event.keyCode;
     if (key === 't') {
@@ -362,14 +436,21 @@ function main() {
     }
   });
 
+  // Se guardan variables iniciales como el tiempo actual, la circunferencia para
+  // la detección del puño o el radio de la circunferencia
   var on_pointer_time = new Date();
-
   var state_fist_moving = 1;
   var sphere_center = {x:0, y:0, z:0};
   var sphere_radius=20000;
 
+  // Gestor del evento de movimiento. Aquí se mueve el puntero (aunque solo
+  // es visible si estamos en el menú) y se actualizan los parámetros si tenemos
+  // el puño cerrado. En el último caso además se hacen comprobaciones de que
+  // los parámetros no se salgan de sus rangos
   detector.onMove = function(pos, diff, state) {
     //console.log("Posicion de la mano " + pos.x +"," + pos.y + "," + pos.z);
+
+    // Si no estamos en ningún gesto, solo actualizamos la posición actual y el puntero
     if (state == detector.states.quiet) {
       var py = pos.y;
       var px = pos.x;
@@ -393,6 +474,9 @@ function main() {
       document.getElementById('cursor').style.left = px + "px";
     }
 
+    // Si estamos señalando, por cada frame que señalemos bajamos el radio de la
+    // circunferencia externa del puntero, y si hemos llegado al tope y estamos sobre
+    // un menú, pulsamos el botón al que estemos apuntando
     if (state == detector.states.pointer) {
       var elapsed_time = (new Date()) - on_pointer_time;
       //console.log("Pointer elapsed time: " + elapsed_time);
@@ -411,8 +495,14 @@ function main() {
       }
     }
 
+    // Si estamos con el puño cerrado intentamos distinguir en qué eje nos movemos
+    // Los movimientos horizontales de los verticales los distingue state_fist_moving
+    // Si estamos en un estado de movimiento horizontal, no nos moveremos verticalmente
+    // a no ser que sobrepasemos el umbral de la circunferencia, que está puesto
+    // para que apenas se note la falta de fluidez y podamos movernos en el eje
+    // que queramos con soltura
     if (state == detector.states.fist) {
-
+      // Comprobamos el centro de la circunferencia y si nos hemos movido hacia alguna dirección
       if(state_fist_moving == 1){
         sphere_center = JSON.parse(JSON.stringify(pos));
         state_fist_moving = 2;
@@ -430,7 +520,7 @@ function main() {
           }
         }
 
-        //console.log("Estoy en el estado " + state_fist_moving);
+    // Si aún no sabemos en qué eje nos estamos moviendo, movemos ambos parámetros
       if(state_fist_moving == 1){
         a -= Math.max(Math.abs(a),1) * diff.y/1000;
         b += Math.max(Math.abs(b),1) * diff.x/1000;
@@ -453,6 +543,7 @@ function main() {
         }
       }
       else if(state_fist_moving == 2){
+    // Si detectamos un movimiento horizontal solo movemos el segundo parámetro
           document.getElementById('fistVerticalInd').style.boxShadow = "none";
           document.getElementById('fistHorizontalInd').style.boxShadow = "0px 0px 10px #f6828c";
           b += Math.max(Math.abs(b),1) * diff.x/1000;
@@ -469,6 +560,7 @@ function main() {
           }
       }
       else if(state_fist_moving == 3){
+    // Si detectamos un movimiento vertical solo movemos el primer parámetro
         document.getElementById('fistVerticalInd').style.boxShadow = "0px 0px 10px #f6828c";
         document.getElementById('fistHorizontalInd').style.boxShadow = "none";
         a -= Math.max(Math.abs(a),1) * diff.y/1000;
@@ -484,35 +576,46 @@ function main() {
           v_a[i].innerHTML = Math.round(a*100)/100;
         }
       }
+
+      // Volvemos a visualizar la función, ya que los parámetros han cambiado
       plot(a, b, dom_x, dom_y);
     }
+    // Actualizamos los parámetros actuales de a y de b dentro de functions
     functions[current_number_f].a = a;
     functions[current_number_f].b = b;
   };
 
+
+  // Gestor del evento de detección de puño cerrado. Ilumina los logos del puño
   detector.onFist = function() {
     //console.log("Puño detectado");
     document.getElementById('fistVerticalInd').style.boxShadow = "0px 0px 10px #f6828c";
     document.getElementById('fistHorizontalInd').style.boxShadow = "0px 0px 10px #f6828c";
   };
 
+  // Gestor del evento de dejar de detectar el puño cerrado. Desactiva la iluminación
+  // de los logos del puño
   detector.onFistRelease = function() {
     //console.log("Puño ya no detectado");
     document.getElementById('fistVerticalInd').style.boxShadow = "none";
     document.getElementById('fistHorizontalInd').style.boxShadow = "none";
   };
 
+  // Gestor del evento de índice señalando, activa el tiempo del puntero activo
   detector.onPointer = function() {
     //console.log("Pointer detectado");
     on_pointer_time = new Date();
   };
 
+  // Gestor del evento de índice dejando de apuntar, reinicia la circunferencia externa
   detector.onPointerRelease = function() {
     //console.log("Pointer ya no detectado");
     document.getElementById('cursorCircle').style.height = '30pt';
     document.getElementById('cursorCircle').style.width = '30pt';
   };
 
+  // Gestor del evento de la mano volteada. Activa o desactiva el menú, según esté
+  // desactivo o activo
   detector.onTurned = function() {
     //console.log("Volteo detectado");
     if (!menu) {
@@ -524,10 +627,12 @@ function main() {
     }
   };
 
+  // Gestor del evento de la mano dejada de voltear. No hace nada
   detector.onTurnedRelease = function() {
     //console.log("Volteo ya no detectado");
   };
 
+  // Ponemos por defecto el detector de gestos en manual y lo iniciamos
   detector.manual();
   detector.start();
 }
