@@ -198,31 +198,35 @@ class GestureDetector {
         // la red neuronal y se actualizan los estados de forma correspondiente
         // Cada index es un estado diferente, que corresponde a los estados del GestureDetector
         if (this.mode == "automatic") {
+          // Se le pasa el input a la red neuronal y se obtiene el resultado
+          // la red neuronal retorna un vector de cuatro elementos (uno por cada gesto)
+          // el valor de cada elemento del vector indica la probabilidad de que se haya ejecutado ese gesto
           var result = this.neural_network.activate(this.last_input);
+          // Obtenemos el índice con mayor valor
           var index = result.indexOf(Math.max(...result));
+          // El gesto detectado es la mano extendida
           if (index == 0) {
-            //console.log("Quiet");
             if(this.current_state != this.states.quiet){
               this.state_callbacks[this.current_state].release();
               this.current_state = this.states.quiet;
               this.state_callbacks[this.current_state].on();
             }
+          // El gesto detectado es el puño
           } else if (index == 1) {
-            //console.log("Fist");
             if(this.current_state != this.states.fist){
               this.state_callbacks[this.current_state].release();
               this.current_state = this.states.fist;
               this.state_callbacks[this.current_state].on();
             }
+          // El gesto detectado es señalar
           } else if (index == 2) {
-            //console.log("Pointer");
             if(this.current_state != this.states.pointer){
               this.state_callbacks[this.current_state].release();
               this.current_state = this.states.pointer;
               this.state_callbacks[this.current_state].on();
             }
+          // El gesto detectado es girar la mano
           } else if (index == 3) {
-            //console.log("Turned");
             if(this.current_state != this.states.turned){
               this.state_callbacks[this.current_state].release();
               this.current_state = this.states.turned;
