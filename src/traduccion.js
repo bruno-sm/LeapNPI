@@ -25,7 +25,12 @@ var strings_idiomas = {
     point_tr:"Señala en todas las posiciones que quieras que se reconozcan.",
     flip_tr:"Mantén la mano volteada hacia arriba en todas las posiciones que quieras que se reconozcan.",
     processing: "Procesando la información...",
-    end_tr:"Ajuste terminado. ¡Muchas gracias!"
+    end_tr:"Ajuste terminado. ¡Muchas gracias!",
+    fist_up:"Mueve el puño arriba y abajo para cambiar el primer parámetro de la función",
+    fist_right:"Mueve el puño a derecha e izquierda para cambiar el segundo parámetro de la función",
+    turned_menu:"Gira la palma de la mano para activar el menú (y para salir de esta ayuda)",
+    pointer_move:"Extiende la mano y muévela para mover el puntero del menú",
+    pointer_menu:"Señala con el dedo para pulsar un botón del menú"
 
   },
   eng:{
@@ -54,7 +59,12 @@ var strings_idiomas = {
     point_tr:"Point to all positions you want to be recognized",
     flip_tr:"Keep your hand flipped, palm looking upwards, in all positions you want to be recognized",
     processing:"Processing...",
-    end_tr: "Process finished. Thank you very much!"
+    end_tr: "Process finished. Thank you very much!",
+    fist_up:"Move the fist up an down to change the first parameter of the function",
+    fist_right:"Move the fist right and left to change the second parameter of the function",
+    turned_menu:"Turn your hand upwards to activate the menu (or to exit this help)",
+    pointer_move:"Keep you hand extended and move it to move the pointer within the menu",
+    pointer_menu:"Point with your index finger to press buttons"
   }
 }
 
@@ -98,6 +108,11 @@ function cambiarIdioma(idioma, current_function, autom){
   document.getElementById('button7text').innerHTML = strings_idiomas[idioma].save_gestos;
   document.getElementById('button8text').innerHTML = strings_idiomas[idioma].restore_gestos;
   document.getElementById('trainingExplainText').innerHTML = strings_idiomas[idioma].training;
+  document.getElementById('fistUpHelp').innerHTML = strings_idiomas[idioma].fist_up;
+  document.getElementById('fistRightHelp').innerHTML = strings_idiomas[idioma].fist_right;
+  document.getElementById('turnedMenuHelp').innerHTML = strings_idiomas[idioma].turned_menu;
+  document.getElementById('pointerMenuHelp').innerHTML = strings_idiomas[idioma].pointer_move;
+  document.getElementById('pulsarMenuHelp').innerHTML = strings_idiomas[idioma].pointer_menu;
 
   return idioma;
 }
