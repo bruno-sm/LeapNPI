@@ -165,8 +165,6 @@ class GestureDetector {
     // de los dedos y palma
     Leap.loop({background: true}, {
       hand: (hand) => {
-        // Si el detector no está activo no hace nada
-        if (!this.active) return;
 
         // Actualiza la posicion
         var pos_x = (hand.screenPosition()[0])*1.5-500;
@@ -194,6 +192,9 @@ class GestureDetector {
         }
         this.last_input[15] = hand.roll();
 
+        // Si el detector no está activo no hace nada
+        if (!this.active) return;
+        
         // Si estamos en detección automática de gestos, se observa qué gesto detecta
         // la red neuronal y se actualizan los estados de forma correspondiente
         // Cada index es un estado diferente, que corresponde a los estados del GestureDetector
