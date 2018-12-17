@@ -321,7 +321,7 @@ function train_neural_network(gesture_detector) {
   // Desactiva el detector de gestos para que no se realicen acciones
   gesture_detector.activate(false);
 
-  // Muestra las instucciones
+  // Muestra las instrucciones
   document.getElementById("trainingExplain").style.visibility = "visible";
 
   // Obtiene la red neuronal guardada
@@ -506,7 +506,7 @@ function main() {
       cursor_var_left = parseInt(document.getElementById('cursor').style.left.replace('px', ''), 10);
       if (menu && elapsed_time >= 2000) {
         var element = document.elementFromPoint(cursor_var_left, cursor_var_top);
-        if (element != null && element.className == "menuButton") {
+        if (element != null/* && element.className == "menuButton") */){
           element.classList.add('clickedButton');
           setTimeout(function(){element.classList.remove('clickedButton');},250);
           element.click();
@@ -601,8 +601,8 @@ function main() {
       plot(a, b, dom_x, dom_y);
     }
     // Actualizamos los parámetros actuales de a y de b dentro de functions
-    functions[current_number_f].a = a;
-    functions[current_number_f].b = b;
+    functions[current_function].a = a;
+    functions[current_function].b = b;
   };
 
 
