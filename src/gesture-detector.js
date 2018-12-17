@@ -60,7 +60,7 @@ class GestureDetector {
     // Para los gestos automáticos, si hay alguno guardado en la sesión del navegador
     // se utiliza ese. Si no, se utiliza el que hay por defecto
     if (localStorage.gesture_network) {
-      this.set_neural_network(synaptic.Network.fromJSON(localStorage.gesture_network));
+      this.set_neural_network(synaptic.Network.fromJSON(JSON.parse(localStorage.gesture_network)));
     } else {
       this.set_neural_network(synaptic.Network.fromJSON(gesture_network));
     }
@@ -194,7 +194,7 @@ class GestureDetector {
 
         // Si el detector no está activo no hace nada
         if (!this.active) return;
-        
+
         // Si estamos en detección automática de gestos, se observa qué gesto detecta
         // la red neuronal y se actualizan los estados de forma correspondiente
         // Cada index es un estado diferente, que corresponde a los estados del GestureDetector

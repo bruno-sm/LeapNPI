@@ -299,7 +299,7 @@ function button6(){
 // Botón 7: Guarda los gestos automáticos actuales en la sesión del navegador
 function button7(){
   // Guarda la red neuronal actual
-  localStorage.gesture_network = detector.neural_network;
+  localStorage.gesture_network = JSON.stringify(detector.neural_network.toJSON());
 }
 
 // Botón 8: Reestablece los gestos automáticos por defecto
